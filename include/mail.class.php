@@ -3,9 +3,9 @@
  * include/mail.class.php
  * fichier de définition d'une classe de traitement des e-mails
  * fait partie de l'application GRR
- * Dernière modification : $Date: 2018-02-23 18:00$
- * @author    JeromeB & Laurent Delineau & Marc-Henri PAMISEUX
- * @copyright Copyright 2003-2018 Team DEVOME - JeromeB
+ * Dernière modification : $Date: 2021-04-10 19:05$
+ * @author    JeromeB & Laurent Delineau & Marc-Henri PAMISEUX & Yan Naessens
+ * @copyright Copyright 2003-2021 Team DEVOME - JeromeB
  * @link      http://www.gnu.org/licenses/licenses.html
  *
  * This file is part of GRR.
@@ -18,8 +18,10 @@
 
 class Email{
 
-	public static function Envois ($A, $sujet, $message, $DE, $cc1='', $cc2='') {
-
+	public static function Envois ($A, $sujet, $message, $DE, $cc1='', $cc2='', $RE='') {
+		
+		mb_internal_encoding('utf-8');
+		
 		if (Settings::get('grr_mail_method') == 'smtp') {
 
 			$smtp1		= Settings::get('grr_mail_smtp');
@@ -27,6 +29,9 @@ class Email{
 			$password	= Settings::get('grr_mail_Password');
 			$smtpsecure	= Settings::get('smtp_secure');
 			$port		= Settings::get('smtp_port');
+
+			//encodage du sujet pour affichage des accents 1/3, YN sur proposition de podz sur le forum
+			$sujet = mb_encode_mimeheader($sujet);
 
 			$mail = new PHPMailer;
 			$mail->CharSet = 'UTF-8';
@@ -38,7 +43,12 @@ class Email{
 			$mail->Host = $smtp1;
 			$mail->Username = $username;
 			$mail->Password = $password;
-			$mail->SMTPSecure = $smtpsecure;	// Enable TLS encryption, `ssl` also accepted
+            if ($smtpsecure != '')
+                $mail->SMTPSecure = $smtpsecure;	// Enable TLS encryption, `ssl` also accepted
+            else {
+                $mail->SMTPSecure = false;
+                $mail->SMTPAutoTLS = false; // évite l'envoi en SMTPS par défaut
+            }
 			$mail->Port = $port;
 
 			if (Settings::get('grr_mail_Username') != "") {
@@ -57,9 +67,15 @@ class Email{
 					$mail->AddAddress($lesDestinataires[$i]);
 				}
 			}
-
-			$mail->addReplyTo($DE, 'GRR');
-
+            if ($RE != '')
+            {
+                $lesRepondreA = explode(";", $RE);
+                for($i=0;$i<count($lesRepondreA);$i++){
+                    $mail->addReplyTo($lesRepondreA[$i],'GRR');
+                }
+            }
+			else
+                $mail->addReplyTo($DE, 'GRR');
 
 			$mail->isHTML(true);
 
@@ -67,23 +83,33 @@ class Email{
 			$mail->Body = nl2br($message);
 			$mail->AltBody = 'Ce message ne peut-être affiché.';
 
-			if(!$mail->send()) {
+			if(!$mail->send()) 
+			{
 				echo 'Message could not be sent.';
 				echo 'Mailer Error: ' . $mail->ErrorInfo;
-			} else {
+			} 
+			else {
 				//echo 'Message has been sent';
 			}
-
-		} else{
+		} 
+		else
+		{	
+            if ($RE == '') $RE = $DE;
+			$sujet = mb_encode_mimeheader($sujet);
 			$headers = "From: {$DE}" . "\r\n" .
-				"Reply-To: {$DE}" . "\r\n" .
-				'X-Mailer: PHP/' . phpversion();
+			"Reply-To: {$RE}" . "\r\n" .
+			//encodage du sujet pour affichage des accents 2/3
+			'MIME-Version: 1.0'."\r\n".
+			'Content-Type: text/plain; charset=utf-8'."\r\n" .
+			'Content-Transfer-Encoding:8bit'."\r\n".
+			'X-Mailer: PHP/' . phpversion()."\r\n";
 
-			//mail($A, $sujet, utf8_decode(utf8_encode($message)), $headers);
-            mail(str_replace(";",",",$A), $sujet, utf8_decode(utf8_encode(str_replace("<br>","",$message))), $headers); //YN selon Rapace sur le forum
+            //encodage du sujet pour affichage des accents 3/3
+			$lesDestinataires = explode(";", $A);
+			for($i=0;$i<count($lesDestinataires);$i++){
+				mail(str_replace(";", ",", $lesDestinataires[$i]), $sujet, str_replace("<br>", "", $message), $headers);
+			} //YN selon Rapace et Boblegal sur le forum
 		}
-
 	}
-
 }
 ?>

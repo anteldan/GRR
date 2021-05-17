@@ -40,8 +40,23 @@ if ($_GET['pview'] != 1)
     else $pageTout = $pageSimple."_all.php";
     // $pageSimple .= '.php';
 	
-    // Calendrier
-	minicals($year, $month, $day, $area, $room, $pageActuel);
+	//récupération des valeurs 
+	$bday = strftime('%d', Settings::get('begin_bookings'));
+    $bmonth = strftime('%m', Settings::get('begin_bookings'));
+	$byear = strftime('%Y', Settings::get('begin_bookings'));
+	
+	$eday = strftime('%d', Settings::get('end_bookings'));
+    $emonth = strftime('%m', Settings::get('end_bookings'));
+	$eyear = strftime('%Y', Settings::get('end_bookings'));
+    // Calendrier en JQuery/Ajax avec gestion des langues via le navigateur
+	echo '<div id="datepicker-container">';
+	echo '<div id="datepicker-center">';
+	echo '<div id="calendar"></div>';
+	echo '</div>';
+	echo '</div>';
+	
+	//Appel du fichier contenant la fonction JS
+	include('calendar.php');
 	
 	// Liste sites, domaines, ressources
 	if (isset($_SESSION['default_list_type']) || (Settings::get("authentification_obli") == 1))

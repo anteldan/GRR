@@ -3,9 +3,9 @@
  * view_rights_room.php
  * Liste des privilèges d'une ressource
  * Ce script fait partie de l'application GRR
- * Dernière modification : $Date: 2017-12-16 14:00$
- * @author    Laurent Delineau & JeromeB
- * @copyright Copyright 2003-2018 Team DEVOME - JeromeB
+ * Dernière modification : $Date: 2020-05-02 11:31$
+ * @author    Laurent Delineau & JeromeB & Yan Naessens
+ * @copyright Copyright 2003-2020 Team DEVOME - JeromeB
  * @link      http://www.gnu.org/licenses/licenses.html
  *
  * This file is part of GRR.
@@ -15,13 +15,15 @@
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  */
+$grr_script_name = "view_rights_room.php";
+
 include "include/connect.inc.php";
 include "include/config.inc.php";
 include "include/functions.inc.php";
 include "include/$dbsys.inc.php";
 include_once('include/misc.inc.php');
 include "include/mrbs_sql.inc.php";
-$grr_script_name = "view_rights_room.php";
+
 // Settings
 require_once("./include/settings.class.php");
 //Chargement des valeurs de la table settingS
@@ -37,22 +39,20 @@ if ((Settings::get("authentification_obli") == 0) && (getUserName() == ''))
 	$type_session = "no_session";
 else
 	$type_session = "with_session";
-$id_room = isset($_GET["id_room"]) ? $_GET["id_room"] : NULL;
-if (isset($id_room))
-	settype($id_room,"integer");
+$id_room = isset($_GET["id_room"]) ? intval($_GET["id_room"]) : NULL;
 if ((authGetUserLevel(getUserName(),$id_room) < 4) || (!verif_acces_ressource(getUserName(), $id_room)))
 {
 	showAccessDenied('');
 	exit();
 }
-echo begin_page(Settings::get("company").get_vocab("deux_points").get_vocab("mrbs"));
+echo start_page_wo_header(Settings::get("company").get_vocab("deux_points").get_vocab("mrbs"),$type_session);
 $res = grr_sql_query("SELECT * FROM ".TABLE_PREFIX."_room WHERE id=$id_room");
 if (!$res)
 	fatal_error(0, get_vocab('error_room') . $id_room . get_vocab('not_found'));
 $row = grr_sql_row_keyed($res, 0);
 grr_sql_free($res);
-echo '<h3 style="text-align:center;">';
-echo get_vocab("room").get_vocab("deux_points")." ".htmlspecialchars($row["room_name"]);
+echo '<h3 class="center">';
+echo get_vocab("room").get_vocab("deux_points")." ".clean_input($row["room_name"]);
 $id_area = mrbsGetRoomArea($id_room);
 $area_name = grr_sql_query1("SELECT area_name FROM ".TABLE_PREFIX."_area WHERE id='".$id_area."'");
 $area_access = grr_sql_query1("SELECT access FROM ".TABLE_PREFIX."_area WHERE id='".$id_area."'");
@@ -64,7 +64,7 @@ echo "</h3>";
 // On affiche pour les administrateurs les utilisateurs ayant des privilèges sur cette ressource
 echo "\n<h2>".get_vocab('utilisateurs ayant privileges')."</h2>";
 $a_privileges = 'n';
-// on teste si des utilateurs administre le domaine
+// on teste si des utilateurs administrent le domaine
 $req_admin = "SELECT u.login, u.nom, u.prenom  FROM ".TABLE_PREFIX."_utilisateurs u left join ".TABLE_PREFIX."_j_useradmin_area j on u.login=j.login WHERE j.id_area = '".$id_area."' order by u.nom, u.prenom";
 $res_admin = grr_sql_query($req_admin);
 $is_admin = '';
@@ -129,4 +129,23 @@ if ($area_access == 'r')
 }
 if ($a_privileges == 'n')
 	echo "<p>".get_vocab("aucun autilisateur").".</p>";
-include "include/trailer.inc.php";
+// Si la ressource est restreinte, on affiche les utilisateurs ayant le droit de réserver
+if ($row['who_can_book'] == 0){// la ressource est à accès restreint
+    $req = "SELECT u.login, u.nom, u.prenom  FROM ".TABLE_PREFIX."_utilisateurs u left join ".TABLE_PREFIX."_j_userbook_room j on u.login=j.login WHERE j.id_room = '".$row['id']."' order by u.nom, u.prenom";
+    $res = grr_sql_query($req);
+    $can_book = '';
+    if ($res){
+        while($user = mysqli_fetch_array($res)){
+            $can_book .= $user['nom']." ".$user['prenom']." (".$user['login'].")<br />";
+        }
+    }
+    grr_sql_free($res);
+    if ($can_book != ''){
+        echo "\n<h3><b>".get_vocab('utilisateurs_reservant')."</b></h3>\n";
+        echo "<p>".$can_book."</p>";
+    }
+    else echo "<p>".get_vocab('aucun_utilisateur_reservant')."</p>";
+}
+//include "include/trailer.inc.php";
+end_page();
+?>

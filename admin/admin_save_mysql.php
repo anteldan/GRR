@@ -3,9 +3,9 @@
  * admin_save_mysql.php
  * Script de sauvegarde de la base de donnée mysql
  * Ce script fait partie de l'application GRR
- * Dernière modification : $Date: 2017-12-16 14:00$
- * @author    Laurent Delineau & JeromeB
- * @copyright Copyright 2003-2018 Team DEVOME - JeromeB
+ * Dernière modification : $Date: 2021-03-13 11:39$
+ * @author    Laurent Delineau & JeromeB & Yan Naessens
+ * @copyright Copyright 2003-2021 Team DEVOME - JeromeB
  * @link      http://www.gnu.org/licenses/licenses.html
  *
  * This file is part of GRR.
@@ -26,34 +26,32 @@ if ((!isset($_GET['mdp'])) && isset($argv[1]))
 	$_GET['mdp'] = $argv[1];
 if (isset($_GET['mdp']))
 {
-	include "../include/connect.inc.php";
-	include "../include/config.inc.php";
-	include "../include/misc.inc.php";
-	include "../include/functions.inc.php";
-	include "../include/$dbsys.inc.php";
-	include("../include/settings.class.php");
+	include(dirname(__FILE__).'/../include/connect.inc.php');
+	include(dirname(__FILE__)."/../include/config.inc.php");
+	include(dirname(__FILE__)."/../include/misc.inc.php");
+	include(dirname(__FILE__)."/../include/functions.inc.php");
+	include(dirname(__FILE__)."/../include/mysql.inc.php"); // remplace $dbsys par mysql, puisque c'est le seul système de BDD compatible avec GRR !
+	include(dirname(__FILE__)."/../include/settings.class.php");
 	if (!Settings::load())
 		die("Erreur chargement settings");
 
 	if ((($_GET['mdp'] != Settings::get("motdepasse_backup")) || (Settings::get("motdepasse_backup")== '' )))
 	{
 		if (!isset($argv[1]))
-			echo begin_page("backup", $page = "no_session")."<p>";
+			echo start_page_wo_header("backup", $page = "no_session")."<p>";
 		echo "Le mot de passe fourni est invalide.";
 		if (!isset($argv[1]))
 		{
 			echo "</p>";
-			include "../include/trailer.inc.php";
+			end_page();
 		}
 		die();
 	}
 }
 else
 {
-	include "../include/admin.inc.php";
-	$back = '';
-	if (isset($_SERVER['HTTP_REFERER']))
-		$back = htmlspecialchars($_SERVER['HTTP_REFERER']);
+	include(dirname(__FILE__)."/../include/admin.inc.php");
+	$back = (isset($_SERVER['HTTP_REFERER']))? htmlspecialchars_decode($_SERVER['HTTP_REFERER'], ENT_QUOTES) : "./admin_accueil.php" ;
 	if (authGetUserLevel(getUserName(),-1) < 6)
 	{
 		showAccessDenied($back);
@@ -141,9 +139,13 @@ while ($j < count($liste_tables))
 		// requete de creation de la table
 		$query = "SHOW CREATE TABLE $temp";
 		$resCreate = mysqli_query($GLOBALS['db_c'], $query);
-		$row = mysqli_fetch_array($resCreate);
-		$schema = $row[1].";";
-		$fd.="$schema\n";
+        if (!$resCreate)
+            $fd.="Problème à la création de $temp !\n";
+		else {
+            $row = mysqli_fetch_array($resCreate);
+            $schema = $row[1].";";
+            $fd.="$schema\n";
+        }
 	}
 	//On ne sauvegarde pas les données de la table ".TABLE_PREFIX."_log
 	if ($donnees && $temp!="".TABLE_PREFIX."_log")

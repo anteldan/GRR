@@ -3,9 +3,9 @@
  * login.php
  * interface de connexion
  * Ce script fait partie de l'application GRR
- * Dernière modification : $Date: 2019-10-10 10:20$
+ * Dernière modification : $Date: 2020-05-29 16:55$
  * @author    Laurent Delineau & JeromeB & Yan Naessens
- * @copyright Copyright 2003-2019 Team DEVOME - JeromeB
+ * @copyright Copyright 2003-2020 Team DEVOME - JeromeB
  * @link      http://www.gnu.org/licenses/licenses.html
  *
  * This file is part of GRR.
@@ -24,32 +24,17 @@ include "include/$dbsys.inc.php";
 require_once("./include/settings.class.php");
 //Chargement des valeurs de la table settingS
 if (!Settings::load())
-	die("Erreur chargement settings");
+	die(get_vocab('error_settings_load'));
 // Paramètres langage
 include "include/language.inc.php";
 // Session related functions
 require_once("./include/session.inc.php");
-
-if(Settings::get("redirection_https") == "yes"){
-	if(!isset($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] != "on")
-	{
-		header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"], true, 301);
-		exit;
-	}
-}
-
 // Vérification du numéro de version et renvoi automatique vers la page de mise à jour
 if (verif_version())
 {
-	header("Location: ./installation/maj.php");
+	header("Location: ./admin/admin_maj.php");
 	exit();
 }
-
-// Si Token Installation n'est pas initialisé on le fait ici car s'est la 1ere page affiché 
-if(Settings::get("tokeninstallation") == ""){
-	Settings::set("tokeninstallation",  generationToken());
-}
-
 // User wants to be authentified
 if (isset($_POST['login']) && isset($_POST['password']))
 {
@@ -58,6 +43,8 @@ if (isset($_POST['login']) && isset($_POST['password']))
 	$result = grr_opensession($_POST['login'], unslashes($_POST['password']));
 	// On écrit les données de session et ferme la session
 	session_write_close();
+    //echo $result;
+    //die();
 	if ($result=="2")
 	{
 		$message = get_vocab("echec_connexion_GRR");
@@ -119,7 +106,7 @@ if (isset($_POST['login']) && isset($_POST['password']))
 		$message = get_vocab("echec_connexion_GRR");
 		$message .= "<br />". get_vocab("connexion_a_grr_ip");
 	}
-	else if ($result == "12")
+	else if ($result == "12") // il faut changer de mot de passe
 	{
 		header("Location: ./changepwd.php");
 	}
@@ -145,102 +132,98 @@ MajMysqlModeDemo();
 //si on a interdit l'acces a la page login
 if ((Settings::get("Url_cacher_page_login") != "") && ((!isset($sso_super_admin)) || ($sso_super_admin == false)) && (!isset($_GET["local"])))
 	header("Location: ./index.php");
-echo begin_page(get_vocab("mrbs").get_vocab("deux_points").Settings::get("company"),"no_session");
+// echo begin_page(get_vocab("mrbs").get_vocab("deux_points").Settings::get("company"),"no_session");
+header('Content-Type: text/html; charset=utf-8');
+echo '<!DOCTYPE html>'.PHP_EOL.'<html lang="fr">';
+echo pageHead2("GRR (Gestion et Réservation de Ressources) ","no_session");
+echo '<body>';
+echo '<div class="center">';
+$nom_picture = "./images/".Settings::get("logo");
+if ((Settings::get("logo") != '') && (@file_exists($nom_picture)))
+    echo "<a href=\"javascript:history.back()\"><img src=\"".$nom_picture."\" alt=\"logo\" /></a>\n";"";
+echo "<h1>";
+    echo Settings::get("title_home_page");
+echo "</h1>";
+echo "<h2>";
+    echo Settings::get("company");
+echo "</h2>";
+echo "<br />";
+echo "<p>";
+    echo Settings::get("message_home_page");
+    if ((Settings::get("disable_login")) == 'yes')
+        echo "<br /><br /><span class='avertissement'>".get_vocab("msg_login3")."</span>";
+echo "</p>";
+echo "<form action=\"login.php\" method='post' style=\"width: 100%; margin-top: 24px; margin-bottom: 48px;\">";
+if ((isset($message)) && (Settings::get("disable_login")) != 'yes')
+    echo("<p><span class='avertissement'>" . $message . "</span></p>");
+if ((Settings::get('sso_statut') == 'cas_visiteur') || (Settings::get('sso_statut') == 'cas_utilisateur'))
+{
+    echo "<p><span style=\"font-size:1.4em\"><a href=\"./index.php\">".get_vocab("authentification_CAS")."</a></span></p>";
+    //echo "<p><b>".get_vocab("authentification_locale")."</b></p>";
+}
+elseif ((Settings::get('sso_statut') == 'lemon_visiteur') || (Settings::get('sso_statut') == 'lemon_utilisateur'))
+{
+    echo "<p><span style=\"font-size:1.4em\"><a href=\"./index.php\">".get_vocab("authentification_lemon")."</a></span></p>";
+    //echo "<p><b>".get_vocab("authentification_locale")."</b></p>";
+}
+elseif (Settings::get('sso_statut') == 'lcs')
+{
+    echo "<p><span style=\"font-size:1.4em\"><a href=\"".LCS_PAGE_AUTHENTIF."\">".get_vocab("authentification_lcs")."</a></span></p>";
+    //echo "<p><b>".get_vocab("authentification_locale")."</b></p>";
+}
+elseif ((Settings::get('sso_statut') == 'lasso_visiteur') || (Settings::get('sso_statut') == 'lasso_utilisateur'))
+{
+    echo "<p><span style=\"font-size:1.4em\"><a href=\"./index.php\">".get_vocab("authentification_lasso")."</a></span></p>";
+    //echo "<p><b>".get_vocab("authentification_locale")."</b></p>";
+}
+elseif ((Settings::get('sso_statut') == 'http_visiteur') || (Settings::get('sso_statut') == 'http_utilisateur'))
+{
+    echo "<p><span style=\"font-size:1.4em\"><a href=\"./index.php\">".get_vocab("authentification_http")."</a></span></p>";
+    //echo "<p><b>".get_vocab("authentification_locale")."</b></p>";
+}
+elseif (Settings::get('sso_statut') == 'joomla')
+{
+    echo "<p><span style=\"font-size:1.4em\"><a href=\"./index.php\">".get_vocab("authentification_joomla")."</a></span></p>";
+    //echo "<p><b>".get_vocab("authentification_locale")."</b></p>";
+}
+echo "<p><b>".get_vocab("authentification_locale")."</b></p>";
+echo '<fieldset style="padding-top: 8px; padding-bottom: 8px; width: 40%; margin-left: auto; margin-right: auto;">';
+echo '<legend class="fontcolor3" style="font-variant: small-caps;">'.get_vocab("identification").'</legend>';
+echo '<p>'.get_vocab("mentions_legal_connexion").'</p>';
+echo '<table class="table-noborder">';
+echo '	<tr>';
+echo '		<td style="text-align: right; width: 40%; font-variant: small-caps;">'.get_vocab("login").'</td>';
+echo '		<td style="text-align: center; width: 60%;"><input type="text" id="login" name="login" /></td>';
+echo '	</tr>';
+echo '	<tr>';
+echo '		<td style="text-align: right; width: 40%; font-variant: small-caps;">'.get_vocab("pwd").'</td>';
+echo '		<td style="text-align: center; width: 60%;"><input type="password" name="password" /></td>';
+echo '	</tr>';
+echo '</table>';
+if (isset($_GET['url']))
+{
+    $url = rawurlencode($_GET['url']);
+    echo "<input type=\"hidden\" name=\"url\" value=\"".$url."\" />\n";
+}
+echo '<input type="submit" name="submit" value="'.get_vocab("OK").'" style="font-variant: small-caps;" />';
+echo '</fieldset>';
+echo '</form>';
+echo '<script type="text/javascript">
+		document.getElementById("login").focus();
+	</script>';
+if (Settings::get("webmaster_email") != "")
+{
+    $lien = affiche_lien_contact("contact_administrateur","identifiant:non","seulement_si_email");
+    if ($lien != "")
+        echo "<p>[".$lien."]</p>";
+}
+echo "<p>[<a href='page.php?page=CGU' target='_blank' rel='noopener noreferer'>".get_vocab("cgu")."</a>]</p>";
+echo "<a href=\"javascript:history.back()\">".get_vocab("previous")." - <b>".Settings::get("company")."</b></a>";
+echo "<br /><br />";
+echo "<br /><p class=\"small\"><a href=\"".$grr_devel_url."\">".get_vocab("mrbs")."</a> - ".get_vocab("grr_version").affiche_version();
+$email = explode('@',$grr_devel_email);
+$person = $email[0];
+$domain = $email[1];
+echo "<br />".get_vocab("msg_login1")."<a href=\"".$grr_devel_url."\">".$grr_devel_url."</a></p>";
+echo '</div></body></html>';
 ?>
-<script type="text/javascript" src="js/functions.js" ></script>
-<div class="center">
-	<?php
-	$nom_picture = "./images/".Settings::get("logo");
-	if ((Settings::get("logo") != '') && (@file_exists($nom_picture)))
-		echo "<a href=\"javascript:history.back()\"><img src=\"".$nom_picture."\" alt=\"logo\" /></a>\n";"";
-	?>
-	<h1>
-		<?php
-		echo Settings::get("title_home_page");
-		?>
-	</h1>
-	<h2>
-		<?php
-		echo Settings::get("company");
-		?>
-	</h2>
-	<br />
-	<p>
-		<?php echo Settings::get("message_home_page");
-		if ((Settings::get("disable_login")) == 'yes')
-			echo "<br /><br /><span class='avertissement'>".get_vocab("msg_login3")."</span>";
-		?>
-	</p>
-	<form action="login.php" method='post' style="width: 100%; margin-top: 24px; margin-bottom: 48px;">
-		<?php
-		if ((isset($message)) && (Settings::get("disable_login")) != 'yes')
-			echo("<p><span class='avertissement'>" . $message . "</span></p>");
-		if ((Settings::get('sso_statut') == 'cas_visiteur') || (Settings::get('sso_statut') == 'cas_utilisateur'))
-		{
-			echo "<p><span style=\"font-size:1.4em\"><a href=\"./index.php\">".get_vocab("authentification_CAS")."</a></span></p>";
-			echo "<p><b>".get_vocab("authentification_locale")."</b></p>";
-		}
-		if ((Settings::get('sso_statut') == 'lemon_visiteur') || (Settings::get('sso_statut') == 'lemon_utilisateur'))
-		{
-			echo "<p><span style=\"font-size:1.4em\"><a href=\"./index.php\">".get_vocab("authentification_lemon")."</a></span></p>";
-			echo "<p><b>".get_vocab("authentification_locale")."</b></p>";
-		}
-		if ((Settings::get('sso_statut') == 'lasso_visiteur') || (Settings::get('sso_statut') == 'lasso_utilisateur'))
-		{
-			echo "<p><span style=\"font-size:1.4em\"><a href=\"./index.php\">".get_vocab("authentification_lasso")."</a></span></p>";
-			echo "<p><b>".get_vocab("authentification_locale")."</b></p>";
-		}
-		if ((Settings::get('sso_statut') == 'http_visiteur') || (Settings::get('sso_statut') == 'http_utilisateur'))
-		{
-			echo "<p><span style=\"font-size:1.4em\"><a href=\"./index.php\">".get_vocab("authentification_http")."</a></span></p>";
-			echo "<p><b>".get_vocab("authentification_locale")."</b></p>";
-		}
-		?>
-		<fieldset style="padding-top: 8px; padding-bottom: 8px; width: 40%; margin-left: auto; margin-right: auto;">
-			<legend class="fontcolor3" style="font-variant: small-caps;"><?php echo get_vocab("identification"); ?></legend>
-			<?php echo "<p>".get_vocab("mentions_legal_connexion")."</p>"; ?>
-			<table style="width: 100%; border: 0;" cellpadding="5" cellspacing="0">
-				<tr>
-					<td style="text-align: right; width: 40%; font-variant: small-caps;"><?php echo get_vocab("login"); ?></td>
-					<td style="text-align: center; width: 60%;"><input type="text" id="login" name="login" /></td>
-				</tr>
-				<tr>
-					<td style="text-align: right; width: 40%; font-variant: small-caps;"><?php echo get_vocab("pwd"); ?></td>
-					<td style="text-align: center; width: 60%;"><input type="password" name="password" /></td>
-				</tr>
-			</table>
-			<?php
-			if (isset($_GET['url']))
-			{
-				$url = rawurlencode($_GET['url']);
-				echo "<input type=\"hidden\" name=\"url\" value=\"".$url."\" />\n";
-			}
-			?>
-			<input type="submit" name="submit" value="<?php echo get_vocab("OK"); ?>" style="font-variant: small-caps;" />
-		</fieldset>
-	</form>
-	<script type="text/javascript">
-		document.getElementById('login').focus();
-	</script>
-	<?php
-	if (Settings::get("webmaster_email") != "")
-	{
-		$lien = affiche_lien_contact("contact_administrateur","identifiant:non","seulement_si_email");
-		if ($lien != "")
-			echo "<p>[".$lien."]</p>";
-	}
-	echo "<p>[<a href='page.php?page=CGU' target='_blank'>".get_vocab("cgu")."</a>]</p>";
-	echo "<a href=\"javascript:history.back()\">".get_vocab("previous")." - <b>".Settings::get("company")."</b></a>";
-	?>
-	<br />
-	<br />
-	<?php
-	echo "<br /><p class=\"small\"><a href=\"".$grr_devel_url."\">".get_vocab("mrbs")."</a> - ".get_vocab("grr_version").affiche_version();
-	$email = explode('@',$grr_devel_email);
-	$person = $email[0];
-	$domain = $email[1];
-	echo "<br />".get_vocab("msg_login1")."<a href=\"".$grr_devel_url."\">".$grr_devel_url."</a>";
-	?>
-</div>
-</body>
-</html>

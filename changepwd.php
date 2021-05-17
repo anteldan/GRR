@@ -3,9 +3,9 @@
  * changepwd.php
  * Interface permettant à l'utilisateur de gérer son compte dans l'application GRR
  * Ce script fait partie de l'application GRR
- * Dernière modification : $Date: 2018-12-16 12:00$
- * @author    JeromeB
- * @copyright Copyright 2003-2018 Team DEVOME - JeromeB
+ * Dernière modification : $Date: 2020-02-28 10:10$
+ * @author    JeromeB & Yan Naessens
+ * @copyright Copyright 2003-2020 Team DEVOME - JeromeB
  * @link      http://www.gnu.org/licenses/licenses.html
  *
  * This file is part of GRR.
@@ -15,6 +15,8 @@
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  */
+$grr_script_name = 'changepwd.php';
+
 include_once('include/connect.inc.php');
 include_once('include/config.inc.php');
 include_once('include/misc.inc.php');
@@ -22,7 +24,7 @@ include_once('include/functions.inc.php');
 require_once('include/'.$dbsys.'.inc.php');
 require_once('include/session.inc.php');
 include_once('include/settings.class.php');
-$grr_script_name = 'changepwd.php';
+
 if (!Settings::load())
 	die('Erreur chargement settings');
 $desactive_VerifNomPrenomUser='y';
@@ -75,8 +77,8 @@ if ($valid == 'yes')
 	}
 }
 
-print_header($type="no_session");
-
+//print_header($type="no_session");
+start_page_w_header('','','',$type_session="no_session");
 
 affiche_pop_up($msg,'admin');
 echo ('
@@ -91,8 +93,7 @@ echo ('
 	if (IsAllowedToModifyMdp() || $_SESSION['changepwd'] == 1)
 	{
 		if($_SESSION['changepwd'] == 1)
-			echo "<h2><span class='avertissement'>".get_vocab('user_change_pwd_obligatoire')."</span></h2>";
-		//echo $msg;
+			echo "<h3><span class='avertissement'>".get_vocab('user_change_pwd_obligatoire')."</span></h3>";
 		echo '
 			<tr>
 				<td>
@@ -112,7 +113,8 @@ echo ('
 	}
 
 	echo '</form>
-		</div>                     
+		</div> 
+		</section>
 	</body>
 </html>';
 ?>

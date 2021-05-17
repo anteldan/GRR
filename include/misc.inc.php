@@ -2,9 +2,9 @@
 /**
  * misc.inc.php
  * fichier de variables diverses
- * Dernière modification : $Date: 2018-07-20 14:00$
+ * Dernière modification : $Date: 2021-05-09 17:28$
  * @author    JeromeB & Laurent Delineau & Yan Naessens
- * @copyright Copyright 2003-2018 Team DEVOME - JeromeB
+ * @copyright Copyright 2003-2021 Team DEVOME - JeromeB
  * @link      http://www.gnu.org/licenses/licenses.html
  *
  * This file is part of GRR.
@@ -21,30 +21,15 @@
 #################################
 $grr_devel_email = "support@devome.com";
 $grr_devel_url = "http://grr.devome.com/";
-
 // Numéro de version actuel
-# Format X.X.XRCX | exemples : 4.0.0a (alpha) ou 4.0.0b (beta) 3.4.0RC1 (Realesa Candidate) ou 3.4.0 (version OK)
-$version_grr = "4.0.0a";
+$version_grr = "3.4.2";
+// Numéro de sous-version actuel (a, b, ...)
+// Utilisez cette variable pour des versions qui corrigent la la version finale sans toucher à la base.
+$sous_version_grr = ""; // a, b, c, ...
+// Numéro de la release candidate (doit être strictement inférieure à 9). Laisser vide s'il s'agit de la version stable.
+$version_grr_RC = "6";
 // Version repository (GitHub)
-$versionReposite = "GitHub";
-
-################################
-# Configuration Requise
-#################################
-// Version PHP minimum
-$php_mini = "7.0.0";
-// Version PHP maximum testé et validé par : JeromeB
-$php_max_valide = "7.2.9";
-// Version PHP maximum qui est sensé fonctionné, si compatible avec toutes les versions à ce jour laisser vide
-$php_maxi = "";
-
-// Version MySQL minimum
-$mysql_mini = "5.4.0";
-// Version MySQL maximum testé et validé par : JeromeB
-$mysql_max_valide = "5.7.19";
-// Version MySQL maximum qui est sensé fonctionné
-$mysql_maxi = "";
-
+$versionReposite = "";
 
 # Liste des tables
 $liste_tables = array(
@@ -74,6 +59,7 @@ $liste_tables = array(
 	"_correspondance_statut",
 	"_page",
 	"_modulesext",
+    "_j_userbook_room"
 	);
 
 # Liste des feuilles de style
@@ -86,7 +72,8 @@ $liste_themes = array(
 	"bleu",
 	"rouge",
 	"rose",
-	"fluo"
+	"fluo",
+    "perso"
 	);
 
 # Liste des noms des styles
@@ -99,7 +86,8 @@ $liste_name_themes = array(
 	"Bleu Talmont",
 	"Rouge Feu",
 	"Roseline",
-	"Jaune Fluo"
+	"Jaune Fluo",
+    "Perso"
 	);
 
 # Liste des langues
@@ -114,37 +102,10 @@ $liste_language = array(
 # Liste des noms des langues
 $liste_name_language = array(
 	"Français",
-	"Deutch",
+	"Deutsch",
 	"English",
 	"Italiano",
 	"Spanish"
-	);
-
-# Liste des noms des variables de config
-$config_variables = array(
-	"nb_year_calendar",
-	"correct_heure_ete_hiver",
-	"max_rep_entrys",
-	"unicode_encoding",
-	"use_function_mysql_real_escape_string",
-	"use_function_html_entity_decode",
-	"connexionAdminMAJ",
-	"restaureBBD",
-	"debug_flag",
-	"recherche_MAJ",
-	"upload_Module",
-	"nbMaxJoursLogConnexion",
-	"motDePasseConfig",
-	"sso_super_admin",
-	"sso_restrictions",
-	"ldap_restrictions",
-	"imap_restrictions",
-	"fonction_mail_restrictions",
-	"Url_CAS_setFixedServiceURL",
-	"dbsys",
-	"structure",
-	"donnees",
-	"insertComplet"
 	);
 
 # Compatibilité avec les version inférieures à 1.9.6
@@ -179,10 +140,10 @@ $eveningends   = 19;
 # eveningends_minutes=45; et resolution=900.
 $eveningends_minutes = 0;
 
-# Début de la semaine: 0 pour dimanche, 1 pou lundi, etc.
+# Début de la semaine: 0 pour dimanche, 1 pour lundi, etc.
 $weekstarts = 1;
 
-# Format d'affichage du temps : valeur 0 pour un affichage « 12 heures » et valeur 1 pour un affichage  « 24 heure ».
+# Format d'affichage du temps : valeur 0 pour un affichage « 12 heures » et valeur 1 pour un affichage  « 24 heures ».
 $twentyfourhour_format = 1;
 
 # Ci-dessous des fonctions non officielles (non documentées) de GRR

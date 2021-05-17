@@ -3,9 +3,9 @@
  * frmcontactlist.php
  * calcule la liste des ressources visibles dans un domaine
  * Ce script fait partie de l'application GRR
- * Dernière modification : $Date: 2018-07-31 16:00$
+ * Dernière modification : $Date: 2020-09-30 18:00$
  * @author    JeromeB & Yan Naessens
- * @copyright Copyright 2003-2018 Team DEVOME - JeromeB
+ * @copyright Copyright 2003-2020 Team DEVOME - JeromeB
  * @link      http://www.gnu.org/licenses/licenses.html
  *
  * This file is part of GRR.
@@ -22,8 +22,9 @@ include "include/misc.inc.php";
 include "include/functions.inc.php";
 
 $id = $_GET['id'];
-// echo "<optgroup label=\"Salles\">"; je supprime optgroup car les ressources ne sont pas toujours des salles ! YN
-$res = grr_sql_query("SELECT room_name,id FROM ".TABLE_PREFIX."_room WHERE area_id = '".$id."' ORDER BY room_name");
+if ($id != protect_data_sql($id))
+    die('Donnée incorrecte');
+$res = grr_sql_query("SELECT room_name,id FROM ".TABLE_PREFIX."_room WHERE area_id = '".protect_data_sql($id)."' ORDER BY room_name");
 $nbresult = mysqli_num_rows($res);
 $user_name = getUserName();
 if ($nbresult != 0)
@@ -34,7 +35,7 @@ if ($nbresult != 0)
         $id_room = $row_roomName[1];
         if (verif_acces_ressource($user_name,$id_room)){
             $room_name = $row_roomName[0];
-            $a .= " <option value =\"$room_name\">$room_name</option>";
+            $a .= " <option value =\"$id_room\">$room_name</option>";
         }
 	}
     if ($a != "")

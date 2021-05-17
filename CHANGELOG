@@ -1,39 +1,104 @@
 Bugs connus sur la version de GitHub :
  - affichage défectueux du menu en position haute dans la page month_all2 
  - des problèmes se produisent lorsqu'on veut faire une modification/copie de réservation  avec un changement de domaine
+ - l'entrée des couleurs des types doit se faire dans l'ordre texte PUIS fond si on veut prendre une couleur prédéfinie
 
 Tâches prévues :
- - interface de personnalisation des couleurs
- 
+ - authentification liée à Joomla!
+ - gestion des champs additionnels sur plusieurs domaines
 -----
 --
 -----
-Version en cours de développement sur GitHUB (4.0.0)
 
-[Ajout] Contrôle version PHP
-[Ajout] Contrôle version MySQL
-[Ajout] Administration : Lien vers la documentation
-[Ajout] Possibilité de créer son fichier config qui ne sera pas écrasé par les mises à jours
-[Ajout] Infos PHP dans les informations du serveur
-[Ajout] Visualisation des variables du fichier config.inc.php dans les informations du serveur
-[Ajout] Champs additionnel dans les exports
-[Ajout] Changement de mot passe à la prochaine connexion
-[Ajout] Possibilité lors de l'importation des utilisateurs par csv de demander de changer de mot de passe
-[Ajout] Personnalisations de la couleur du texte par type de réservation
-[Ajout] Synchronisation de la langue avec tout les utilisateurs
-[Ajout] Synchronisation du thème avec tout les utilisateurs
-[Correction] Déconnexion utilisateur lorsque une connexion externe est activée
-[Modification] Administration : passage sous twig
-[Modification] Administration : Theme AdminLTE
-[Modification] Compatibilité PHP 7.2
-[Modification] Déconnexion de l'utilisateur de puis l'administration sans le changement de mot de passe
-[Modification] Séparation de la date, heure début de réservation et la durée dans les exports
+Version 3.4.2 
+    ajout : fonctionnalité de limitation du quota de réservations sur une période
+    ajout : indicateur de complexité de MDP + mes réservations + refonte de la page my_account.php
+    ajout : popup de visualisation des administrateurs de site
+    ajout : possibilité de fixer l'expéditeur des mails (devrait passer les serveurs SMTP refusant le relai)
+    ajout : champs additionnels dans les messages de modération
+    ajout : info-bulle sur les privilèges
+    ajout : champ "mot de passe à modifier" dans le fichier csv d'importation d'utilisateurs
+    amélioration : prise en compte de plusieurs comptes mail d'administrateurs
+    amélioration : possibilité d'imposer un changement de mot de passe (rétro-portage et amélioration du code)
+    amélioration : récupération des couleurs personnalisées
+    amélioration : traitement des doublons dans la définition des sites
+    amélioration : premiers paramètres à l'installation
+    correctif : affichage des ressources par domaine dans la page year_all (monosite)
+    correctif : visibilité du bouton toTop
+    correctif : formulaire affiché seulement pour un utilisateur autorisé
+    correctifs : gestion de timePicker et DatePicker
+    correctif : décompte des réservations à modérer pour un gestionnaire de ressource
+    correctif : gestion des champs additionnels dans les rapports statistiques
+    correctifs : divers, syntaxe et calcul
+    correctif : prise en compte du changement de mot de passe dans les imports csv d'utilisateurs
+    correctif : le nom d'utilisateur SMTP peut dépendre d'un domaine AD
+    correctif : prévient une mauvaise mise en page par Firefox du planning week_all en mode preview
+    mise à jour : jquery en 3.4.1 (progressivement)
+    mise à jour : select2 en 4.0.13
+    mise à jour : jQuery-UI en v1.12.1
+    mise à jour : ckeditor en version 4.14
+    mise à jour : phpmailer en version 5.2.28
+    mise à jour : phpCAS en version 1.3.8
+    mise à jour : script floatThead
+    modification : calcul et présentation de la page d'édition des réservations (edit_entry.php), avec notamment un outil de recherche d'utilisateurs, les champs additionnels ne devraient plus être perdus, les champs obligatoires sont mieux identifiés
+    modification : rétablissement du choix du nombre de calendriers à afficher dans le menu gauche (ou haut)
+    modification : gestion des types (n'utilise plus le fichier types.css mais évalue les types avant de calculer la section <head>, devrait résoudre les pbs de cache)
+    modification : champ destinataire spécifique, style de la page, clé unique dans la définition des champs additionnels
+    modification : conformité avec le schéma v4.0
+    modification : séparation des date, heure de début et durée dans les rapports
+    modification : calcul et présentation des pages planning
 
-Version en cours de développement sur GitHUB (3.4.1) // Numéro de version à confirmer
+-----
+--
+-----
+
+Version 3.4.1
     [ajout] Echange de deux réservations
     [ajout] Page year_all affichant les réservations sur plusieurs mois et plusieurs domaines (à utiliser avec prudence s'il y a beaucoup de réservations ou de ressources)
-    [amelioration] reprise du code des pages plannings pour gérer les menus escamotables (fait toutes pages)
-    
+    [ajout] Contenu des champs additionnels dans les exports csv
+    [ajout] Gestion des couleurs du texte des types de réservation (meilleure lisibilité dans les plannings)
+    [ajout] Page d'interface de personnalisation des couleurs
+    [amelioration] Reprise du code des pages plannings pour gérer les menus escamotables (haut et gauche) 
+    [modification] Utilisation de jscolor pour définir les couleurs des types
+    [modification] Page d'accueil de la section administration
+    [modification] Gestion de l'affichage des champs additionnels
+    [correction] meilleure prise en compte des réglages par défaut
+Sous-version 3.4.1a (version de maintenance)
+	[correction] divers bugs, compatibilité php7, erreurs de syntaxe ou orthographiques
+Sous-version 3.4.1b 
+	[ajout] possibilité de définir un type et affecter ce type à la fonction "cacher sur les plannings week_all, month et month_all"
+	[amélioration] configuration LDAP acceptant le protocole LDAPS
+	[amélioration] gestion des champs additionnels dans edit_entry
+	[correction] divers bugs, erreurs de syntaxe ou orthographiques
+	[modification] limitation de la taille des données conformément à la base
+	[modification] calcul et aspect de la page de contact externe
+Sous-version 3.4.1c
+    [correction] failles de sécurité dans formulaire de contact et gestion des ressources
+    [correction] divers bugs, erreurs de syntaxe ou orthographiques
+Sous-version 3.4.1d
+    [ajout] mail au modérateur en cas de suppression
+    [correction] filtrage amélioré des données
+    [correction] dans view_entry, le formulaire est affiché seulement pour les utilisateurs autorisés
+    [correction] syntaxe php et html
+    [correction] visibilité du bouton toTop
+    [mises à jour] ckeditor v.4.14, phpCAS V.1.38, phpmailer v.5.2.28, floatThead v.2.1.4, vacances.xml
+Sous-version 3.4.1e
+    [amélioration] internationalisation
+    [correction] nom du bénéficiaire en modification d'une réservation existante
+    [correction] syntaxe
+    [modification] acceptation des adresses mail en localhost
+    [modification] alerte envoyée aux administrateurs de la ressource, à défaut du domaine, à défaut du site, sinon aux administrateurs généraux
+Sous-version 3.4.1f
+    [amélioration] prise en charge du protocole LDAPS
+    [correction] points mineurs du code
+    [modification] évite l'autonégociation en SMTPS
+Sous-version 3.4.1g
+    [correction] erreurs syntaxiques
+    [correction] affichage des plannings week_all en mode preview
+    [correction] pallie l'absence de $_SERVER['HTTP_REFERER'] si le serveur ne donne pas cette valeur
+    [modification] rétablissement du choix du nombre de calendriers à afficher dans le menu gauche (ou haut)
+    [modification] définition de la fonction changeRooms ; devrait accélérer l'affichage de la page edit_entry
+
 -----
 --
 -----
@@ -45,7 +110,7 @@ Version 3.4.0
 	[ajout] Menu administration : Couleur bleu sur le lien où l'on se situe
 	[ajout] Menu administration : Possiblité d'accéder au lien où l'on se situe
 	[ajout] Moteur de page
-	[ajout] Conditions Générales d'Utilisation personalisables
+	[ajout] Conditions Générales d'Utilisation personnalisables
 	[ajout] Lors de l'envoi mail, notifier le changement de ressources s'il y a lieu
 	[ajout] Gestion de modules externes
     [ajout] message dans l'entête s'il existe une réservation à modérer

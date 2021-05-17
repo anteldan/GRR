@@ -19,6 +19,7 @@ Dans le cas contraire, vous devez impérativement renseigner ce fichier :
 -  $dbDb : le nom de votre base mysql.
 -  $dbUser : le nom de l'utilisateur mysql qui a les droits sur la base.
 -  $dbPass : le mot de passe de l'utilisateur mysql ci-dessus.
+-  $dbPort : le port de communication utilisé par le serveur MySQL (3306 par défaut).
 
 ***********
 Pré-requis
@@ -27,7 +28,7 @@ Pré-requis
 Pour installer et faire fonctionner GRR, vous avez besoin de :
 -> Un serveur web/php et un serveur mysql (éventuellement sur la même
 machine)
--> Nécessité de disposer d'une version de php version supérieure ou égale à 5.4.0 (gestion des variables de type $_SESSION, fonction mysql_real_escape_string(),  ...)
+-> Nécessité de disposer d'une version de php version supérieure ou égale à 5.6.0 (gestion des variables de type $_SESSION, fonction mysql_real_escape_string(),  ...)
 
 ************************************************
 Installation - Etape 1 : Configuration de GRR
@@ -52,6 +53,7 @@ Modification des droits : les droits d'écriture doivent être attribués
 * au répertoire "/images"       (chargement d'images pour les fiches de présentation des ressources)
 * au fichier "include/connect.inc.php"      (dans le cas d'une installation automatisée)
 * au fichier "include/config_ldap.inc.php"  (dans le cas d'une authentification ldap)
+* au fichier "themes/default/css/types.css"  (pour la gestion des couleurs selon le type de réservation)
 
 ***************************************************
 Installation - Etape 3 : création de la base Mysql
@@ -100,7 +102,29 @@ Après l'installation : configuration de GRR en ligne
 
 Une fois le système installé, vous pouvez vous connecter à GRR :
 -  nom de connexion : 'administrateur' et mot de passe : 'azerty'),
--  Par sécurité, CHANGEZ LE MOT DE PASSE de 'admin' grâce au lien "gérer mon
+-  Par sécurité, CHANGEZ LE MOT DE PASSE de 'administrateur' grâce au lien "gérer mon
 compte" dans le bandeau en haut !
--  allez dans la partie "gestion" (lien dans le bandeau en haut)
+-  allez dans la partie "Administration" (lien dans le bandeau en haut) pour créer domaines, ressrouces et utilisateurs.
 
+
+************************************************************
+Procédure de mise à jour, depuis GRR 1.9.7e, voir plus bas
+************************************************************
+
+Il n'y a pas de procédure de mise à jour automatique de l'ensemble logiciel GRR.
+Par sécurité, avant de mettre les scripts à jour, faites une sauvegarde de la base de données, puis de l'ensemble de l'arborescence de GRR.
+Téléchargez sur votre serveur les scripts de la nouvelle version de GRR.
+Recopiez les fichiers de configuration (/include/config.inc.php, /include/connect.inc.php et - éventuellement - /include/config_ldap.inc.php) et le fichier de style des types de réservation (/themes/default/css/types.css).
+Vérifiez les droits en écriture sur les fichiers et le dossier indiqués à l'étape 2.
+Connectez-vous à GRR avec un compte administrateur. Si vous avez fait une montée de version, GRR demandera une mise à jour de la base de données. Faites-la puis connectez-vous. Vous devriez avoir de nouveau GRR opérationnel.
+
+Pour mettre à jour depuis GRR 1.9.7e ou antérieur, voici les étapes recommandées :
+- faire une sauvegarde depuis GRR197
+- éventuellement vider la table de connexions (grr_log)
+- refaire une sauvegarde depuis GRR 1.9.7e
+- déplacer les scripts de GRR197 à titre de sauvegarde
+- installer les scripts de GRR 3.4.2 dans un dossier vide
+- initialiser GRR 3.4.2
+- convertir le fichier de sauvegarde GRR197 à l'encodage UTF-8 (sans BOM) pour convertir les accents
+- restaurer la sauvegarde faite avec GRR 1.9.7e.
+Vous devriez avoir de nouveau GRR opérationnel.

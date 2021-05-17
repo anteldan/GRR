@@ -3,9 +3,9 @@
  * pdfgenerator.php
  * Générer les PDF
  * Ce script fait partie de l'application GRR
- * Dernière modification : $Date: 2017-12-17 19:00$
- * @author    Laurent Delineau & JeromeB
- * @copyright Copyright 2003-2018 Team DEVOME - JeromeB
+ * Dernière modification : $Date: 2020-03-29 11:50$
+ * @author    Laurent Delineau & JeromeB & Yan Naessens
+ * @copyright Copyright 2003-2020 Team DEVOME - JeromeB
  * @link      http://www.gnu.org/licenses/licenses.html
  *
  * This file is part of GRR.
@@ -15,6 +15,9 @@
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  */
+
+$grr_script_name = "pdfgenerator.php";
+
 include "include/connect.inc.php";
 include "include/config.inc.php";
 include "include/misc.inc.php";
@@ -22,7 +25,6 @@ include "include/functions.inc.php";
 include "include/$dbsys.inc.php";
 include "include/mincals.inc.php";
 include "include/mrbs_sql.inc.php";
-$grr_script_name = "pdfgenerator.php";
 require_once("./include/settings.class.php");
 if (!Settings::load())
 	die("Erreur chargement settings");
@@ -53,21 +55,22 @@ if ("POST" == $_SERVER['REQUEST_METHOD'])
 	$jourPeriode = $_POST['jourPeriode'];
 	$cle = $_POST['cle'];
 	
-	if ($period == 0){
-		include 'pdf/pdf_ResUnique.php';
-	}else{
-		include 'pdf/pdf_ResPeriode_Sem.php';
-	}
+	if ($period == 0)
+        {include 'pdf/pdf_ResUnique.php';}
+    else
+        {include 'pdf/pdf_ResPeriode_Sem.php';}
 	include 'pdf/printPDF.php';
 }
 else
 {
-	if (isset($_GET['id']))
-		$id = $_GET['id'];
+	if (isset($_GET['id'])){
+		$id = htmlspecialchars($_GET['id']);
+		settype($id,"integer");
+	}
 	else
 		header('Location: '.Settings::get("grr_url"));
 
-	$sql = "SELECT * FROM ".TABLE_PREFIX."_entry WHERE id='".intval($id)."'";
+	$sql = "SELECT * FROM ".TABLE_PREFIX."_entry WHERE id='".$id."'";
 	$res = grr_sql_query($sql);
 	if (!$res)
 		fatal_error(0, grr_sql_error());
