@@ -491,20 +491,20 @@ echo '<form action="admin_user_modify.php?display='.$display.'" method="get"><di
     }
     else
     {
-        echo "<input type=\"text\" name=\"new_login\" size=\"40\" required />";
+        echo "<input type=\"text\" name=\"new_login\" maxlength=\"40\" size=\"40\" required />";
     }
     echo "<table class='table-noborder'><tr>".PHP_EOL;
-    echo "<td>".get_vocab("last_name")." *".get_vocab("deux_points")."</td>\n<td><input type=\"text\" name=\"reg_nom\" size=\"40\" value=\"";
+    echo "<td>".get_vocab("last_name")." *".get_vocab("deux_points")."</td>\n<td><input type=\"text\" name=\"reg_nom\" maxlength=\"30\" size=\"40\" value=\"";
     if ($utilisateur['nom'])
         echo htmlspecialchars($utilisateur['nom']);
     echo "\" /></td>\n";
-    echo "<td>".get_vocab("first_name")." *".get_vocab("deux_points")."</td>\n<td><input type=\"text\" name=\"reg_prenom\" size=\"20\" value=\"";
+    echo "<td>".get_vocab("first_name")." *".get_vocab("deux_points")."</td>\n<td><input type=\"text\" name=\"reg_prenom\" maxlength=\"30\" size=\"20\" value=\"";
     if ($utilisateur['nom'])
         echo htmlspecialchars($utilisateur['prenom']);
     echo "\" /></td>\n";
     echo "<td></td><td></td>";
     echo "</tr>\n";
-    echo "<tr><td>".get_vocab("mail_user").get_vocab("deux_points")."</td><td><input type=\"text\" name=\"reg_email\" size=\"30\" value=\"";
+    echo "<tr><td>".get_vocab("mail_user").get_vocab("deux_points")."</td><td><input type=\"text\" name=\"reg_email\" maxlength=\"100\" size=\"30\" value=\"";
     if ($utilisateur['email'])
         echo htmlspecialchars($utilisateur['email']);
     echo "\" /></td>\n";
@@ -563,8 +563,8 @@ echo '<form action="admin_user_modify.php?display='.$display.'" method="get"><di
     echo "<div id='password_fields' >";
     if ((isset($user_login)) && ($user_login!='') && ($flag_is_local=="y"))
         echo "<b>".get_vocab("champ_vide_mot_de_passe_inchange")."</b>";
-    echo "<br />".get_vocab("pwd_toot_short")." *".get_vocab("deux_points")."<input type=\"password\" name=\"reg_password\" size=\"20\" />\n";
-    echo "<br />".get_vocab("confirm_pwd")." *".get_vocab("deux_points")."<input type=\"password\" name=\"reg_password2\" size=\"20\" />\n";
+    echo "<br />".get_vocab("pwd_toot_short")." *".get_vocab("deux_points")."<input type=\"password\" name=\"reg_password\" maxlength=\"32\" size=\"20\" />\n";
+    echo "<br />".get_vocab("confirm_pwd")." *".get_vocab("deux_points")."<input type=\"password\" name=\"reg_password2\" maxlength=\"32\" size=\"20\" />\n";
     echo '<br /><label for="reg_changepwd">'.get_vocab("user_change_pwd_connexion").'</label>
                                 <input type="checkbox" name="reg_changepwd" value="1"';
                                 if ($_SESSION['changepwd'] == 1) echo 'checked = "checked"';
