@@ -721,6 +721,14 @@ echo '<div>'.PHP_EOL;
 echo '<label for="description">'.$D.'</label>'.PHP_EOL;
 echo '<textarea name="description" class="form-control" rows="4">'.$E.'</textarea>'.PHP_EOL;
 echo '</div>'.PHP_EOL;
+// types
+echo '<br><div id="div_types">',PHP_EOL;
+echo '</div>',PHP_EOL;
+
+// champs additionnels
+echo '<div id="div_champs_add">'.PHP_EOL;
+echo '</div>'.PHP_EOL;
+
 // date et heure de début
 echo '<div class="E form-inline"><b>'.$date_debut.'</b>'.PHP_EOL;
 echo '<div class="form-group">'.PHP_EOL;
@@ -926,12 +934,7 @@ if (($delais_option_reservation > 0) && (($modif_option_reservation == 'y') || (
 	echo "</div></div>\n";
 }
 
-// types
-echo '<div id="div_types">',PHP_EOL;
-echo '</div>',PHP_EOL;
-// champs additionnels
-echo '<div id="div_champs_add">'.PHP_EOL;
-echo '</div>'.PHP_EOL;
+
 // clé
 if($active_cle == 'y'){
 	echo '<div class="E">'.PHP_EOL;
