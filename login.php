@@ -181,7 +181,7 @@ echo '<p>'.get_vocab("mentions_legal_connexion").'</p>';
 echo '<table class="table-noborder">';
 echo '	<tr>';
 echo '		<td style="text-align: right; width: 40%; font-variant: small-caps;">'.get_vocab("login").'</td>';
-echo '		<td style="text-align: center; width: 60%;"><input type="text" id="login" name="login" /></td>';
+echo '		<td style="text-align: center; width: 60%;"><input type="text" id="login" placeholder="prenom.nom" name="login" /></td>';
 echo '	</tr>';
 echo '	<tr>';
 echo '		<td style="text-align: right; width: 40%; font-variant: small-caps;">'.get_vocab("pwd").'</td>';

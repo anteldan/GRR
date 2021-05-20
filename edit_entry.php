@@ -757,6 +757,7 @@ echo '<table>'.PHP_EOL;
 // bloc choix du bénéficiaire
 echo '<tr><td><div id="div_beneficiaire"></div></td></tr>';
 
+
 echo '<tr><td class="E">'.PHP_EOL;
 echo '<b>'.$B.'</b>'.PHP_EOL;
 echo '</td></tr>'.PHP_EOL;
@@ -769,6 +770,12 @@ echo '</td></tr>'.PHP_EOL;
 echo '<tr><td class="TL">'.PHP_EOL;
 echo '<textarea name="description" class="pleine form-control" rows="4" columns="60" >'.$E.'</textarea>'.PHP_EOL;
 echo '</td></tr>'.PHP_EOL;
+
+// types
+echo '<tr>',PHP_EOL,'<td>',PHP_EOL,'<div id="div_types">',PHP_EOL;
+echo '</div>',PHP_EOL,'</td>',PHP_EOL,'</tr>',PHP_EOL;
+
+// champs additionnel 
 echo '<tr><td>'.PHP_EOL;
 echo '<div id="div_champs_add">'.PHP_EOL;
 echo '</div>'.PHP_EOL;
@@ -1050,9 +1057,7 @@ if ($res)
 }
 echo '</select>',PHP_EOL,'</td>',PHP_EOL,'<td>','&nbsp; &nbsp;',get_vocab("ctrl_click"),'</td>',PHP_EOL,'</tr>',PHP_EOL,'</table>',PHP_EOL;
 echo '</td>',PHP_EOL,'</tr>',PHP_EOL;
-// types
-echo '<tr>',PHP_EOL,'<td>',PHP_EOL,'<div id="div_types">',PHP_EOL;
-echo '</div>',PHP_EOL,'</td>',PHP_EOL,'</tr>',PHP_EOL;
+
 ?>
 <script type="text/javascript" >
     insertBeneficiaires(<?php echo $area?>,<?php echo $room?>,<?php echo json_encode($user_name);?>,<?php echo $id?>);

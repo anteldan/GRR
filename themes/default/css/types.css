@@ -1,9 +1,51 @@
-/* fichier de style reprenant les paramètres des types de réservation */
-td.typeA{background:#1abc9c !important;color:#000000 !important;}
+/* fichier de style reprenant les paramètres des types de réservation */ 
+td.typeA{background:#3498DB !important;color:#000000 !important;}
 td.typeA a.lienCellule{color:#000000 !important;}
-
-td.typeB{background:#C03000 !important;color:#FFFFFF !important;}
-td.typeB a.lienCellule{color:#FFFFFF !important;}
-
-td.typeC{background:#4BB5C1 !important;color:#000000 !important;}
+ 
+td.typeG{background:#99CCCC !important;color:#454545 !important;}
+td.typeG a.lienCellule{color:#454545 !important;}
+ 
+td.typeJ{background:#FFCC99 !important;color:#000000 !important;}
+td.typeJ a.lienCellule{color:#000000 !important;}
+ 
+td.typeB{background:#F49AC2 !important;color:#000000 !important;}
+td.typeB a.lienCellule{color:#000000 !important;}
+ 
+td.typeC{background:#009900 !important;color:#000000 !important;}
 td.typeC a.lienCellule{color:#000000 !important;}
+ 
+td.typeD{background:#E67E22 !important;color:#000000 !important;}
+td.typeD a.lienCellule{color:#000000 !important;}
+ 
+td.typeF{background:#DDFFDD !important;color:#000000 !important;}
+td.typeF a.lienCellule{color:#000000 !important;}
+ 
+td.typeH{background:#9B59B6 !important;color:#EEEEEE !important;}
+td.typeH a.lienCellule{color:#EEEEEE !important;}
+ 
+td.typeI{background:#A0A000 !important;color:#E1E1E1 !important;}
+td.typeI a.lienCellule{color:#E1E1E1 !important;}
+ 
+td.typeE{background:#4169E1 !important;color:#F2F2F2 !important;}
+td.typeE a.lienCellule{color:#F2F2F2 !important;}
+ 
+td.typeP{background:#2ECC71 !important;color:#F0EDE4 !important;}
+td.typeP a.lienCellule{color:#F0EDE4 !important;}
+ 
+td.typeQ{background:#FFBB20 !important;color:#78523D !important;}
+td.typeQ a.lienCellule{color:#78523D !important;}
+ 
+td.typeK{background:#34495E !important;color:#F6F6F6 !important;}
+td.typeK a.lienCellule{color:#F6F6F6 !important;}
+ 
+td.typeM{background:#FF00DE !important;color:#000000 !important;}
+td.typeM a.lienCellule{color:#000000 !important;}
+ 
+td.typeL{background:#EAEAEA !important;color:#000000 !important;}
+td.typeL a.lienCellule{color:#000000 !important;}
+ 
+td.typeO{background:#2BFAFA !important;color:#000000 !important;}
+td.typeO a.lienCellule{color:#000000 !important;}
+ 
+td.typeR{background:#9b59b6 !important;color:#000000 !important;}
+td.typeR a.lienCellule{color:#000000 !important;}
