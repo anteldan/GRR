@@ -1963,7 +1963,7 @@ function round_t_up($t, $resolution, $am7)
 {
 	if (($t - $am7) % $resolution != 0)
 	{
-		return $t + $resolution - abs(((int)$t - (int)$am7) % $resolution);
+		return $t ;//+ $resolution - abs(((int)$t - (int)$am7) % $resolution);
 	}
 	else
 	{
