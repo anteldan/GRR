@@ -586,12 +586,10 @@ function validate_and_submit (){
             ?>
 
 				champ = document.getElementsByName('<?php echo "addon_".$overload_fields[$fieldname]['id']?>');
-				if(champ['length'] == 1){
-					if (isNaN(champ[0].value)) 
-					{
-						$("#error").append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><?php echo addslashes($overload_fields[$fieldname]["name"]).get_vocab("deux_points"). get_vocab("is_not_numeric") ?></div>');
-						err = 1;
-					}
+				if(champ['length'] == 1 && isNaN(champ[0].value)) 
+				{
+					$("#error").append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><?php echo addslashes($overload_fields[$fieldname]["name"]).get_vocab("deux_points"). get_vocab("is_not_numeric") ?></div>');
+					err = 1;
 				}
                 <?php
             }
