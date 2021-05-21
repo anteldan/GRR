@@ -558,12 +558,17 @@ function validate_and_submit (){
     foreach ($allareas_id as $idtmp)
     {
         $overload_fields = mrbsOverloadGetFieldslist($idtmp);
+		
+		
         foreach ($overload_fields as $fieldname=>$fieldtype)
         {
+
+					
             if ($overload_fields[$fieldname]["obligatoire"] == 'y')
             {
                 if ($overload_fields[$fieldname]["type"] != "list")
                 {
+				
                     echo "if ((document.getElementById('id_".$idtmp."_".$overload_fields[$fieldname]["id"]."')) && (document.forms[\"main\"].addon_".$overload_fields[$fieldname]["id"].".value == \"\")) {\n";
                 }
                 else
@@ -579,10 +584,14 @@ function validate_and_submit (){
 			if ($overload_fields[$fieldname]["type"] == "numeric")
 			{
             ?>
-				if (isNaN((document.getElementById('id_".$idtmp."_".$overload_fields[$fieldname]["id"]."')) && (document.forms['main'].addon_<?php echo $overload_fields[$fieldname]['id']?>.value))) 
-                {
-					$("#error").append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><?php echo addslashes($overload_fields[$fieldname]["name"]).get_vocab("deux_points"). get_vocab("is_not_numeric") ?></div>');
-					err = 1;
+
+				champ = document.getElementsByName('<?php echo "addon_".$overload_fields[$fieldname]['id']?>');
+				if(champ['length'] == 1){
+					if (isNaN(champ[0].value)) 
+					{
+						$("#error").append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><?php echo addslashes($overload_fields[$fieldname]["name"]).get_vocab("deux_points"). get_vocab("is_not_numeric") ?></div>');
+						err = 1;
+					}
 				}
                 <?php
             }
