@@ -976,24 +976,58 @@ if (($delais_option_reservation > 0) && (($modif_option_reservation == 'y') || (
 	if ($modif_option_reservation == 'y')
 	{
 		echo '<select class="form-control" name="option_reservation" size="1">'.PHP_EOL;
+		echo "<option value = \"-1\">".get_vocab("Reservation confirmee")."</option>\n";
+
+		?>
+			<script>
+			//ajout des listener pour avoir les changement en direct
+			document.getElementById('start_day').onchange = function(){dateResa()};
+			document.getElementById('start_month').onchange = function(){dateResa()};
+			document.getElementById('start_year').onchange = function(){dateResa()};
+
+			//récupération du select
+			select = document.getElementsByName('option_reservation')[0];
+
+			dateResa()
+			function dateResa(){
+
+				//supression des option précédente
+				while (select[1]) {
+					select.remove(1);
+				}
+
+				//création des date par rapport à la date du jour
+				date = new Date();
+				date.setHours(0,0,0);
+				const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; //format d'affichage de la date
+
+
+				for (i = 0; i < (<?php echo $delais_option_reservation ?> + 1); i++) {
+					var opt = document.createElement('option');
+					opt.value = Math.trunc(date.getTime()/1000);
+					opt.innerHTML = date.toLocaleDateString('fr-FR', options);
+					select.appendChild(opt);
+					date.setDate(date.getDate()+1)
+
+					//arrête la boucle si on a dépassé la date sélectioné 
+					if(date.getFullYear() > parseInt(document.getElementById("start_year").value, 10)){
+						//cas où l'année est suppérieur à celle de la date sélectionné
+						break;
+					}else if((date.getMonth()+1) > parseInt(document.getElementById("start_month").value, 10) && date.getFullYear() == parseInt(document.getElementById("start_year").value, 10)){
+						//cas où le mois est suppérieur à celui de la date sélectionné
+						break;
+					}else if(date.getDate() >= parseInt(document.getElementById("start_day").value, 10) && (date.getMonth()+1) == parseInt(document.getElementById("start_month").value, 10) && date.getFullYear() == parseInt(document.getElementById("start_year").value, 10)){
+						//cas où le jour est suppérieur ou égale à celui de la date sélectionné
+						break;
+					}
+				}
+			}
+			</script>
+		<?php
 		$k = 0;
 		$selected = 'n';
 		$aff_options = "";
-		while ($k < $delais_option_reservation + 1)
-		{
-			$day_courant = $day + $k;
-			$date_courante = mktime(0, 0, 0, $month, $day_courant,$year);
-			$aff_date_courante = time_date_string_jma($date_courante,$dformat);
-			$aff_options .= "<option value = \"".$date_courante."\" ";
-			if ($option_reservation == $date_courante)
-			{
-				$aff_options .= " selected=\"selected\" ";
-				$selected = 'y';
-			}
-			$aff_options .= ">".$aff_date_courante."</option>\n";
-			$k++;
-		}
-		echo "<option value = \"-1\">".get_vocab("Reservation confirmee")."</option>\n";
+
 		if (($selected == 'n') and ($option_reservation != -1))
 		{
 			echo "<option value = \"".$option_reservation."\" selected=\"selected\">".time_date_string_jma($option_reservation, $dformat)."</option>\n";
