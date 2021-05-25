@@ -860,6 +860,7 @@ echo '</div>'.PHP_EOL;
 echo "</td></tr>".PHP_EOL;
 if ($type_affichage_reser == 0) // sélection de la durée
 {
+
 	echo '<tr><td class="E">'.PHP_EOL;
 	echo '<b>'.get_vocab("duration").'</b>'.PHP_EOL;
 	echo '</td></tr>'.PHP_EOL;
@@ -1003,12 +1004,6 @@ if (($delais_option_reservation > 0) && (($modif_option_reservation == 'y') || (
 
 
 				for (i = 0; i < (<?php echo $delais_option_reservation ?> + 1); i++) {
-					var opt = document.createElement('option');
-					opt.value = Math.trunc(date.getTime()/1000);
-					opt.innerHTML = date.toLocaleDateString('fr-FR', options);
-					select.appendChild(opt);
-					date.setDate(date.getDate()+1)
-
 					//arrête la boucle si on a dépassé la date sélectioné 
 					if(date.getFullYear() > parseInt(document.getElementById("start_year").value, 10)){
 						//cas où l'année est suppérieur à celle de la date sélectionné
@@ -1020,6 +1015,12 @@ if (($delais_option_reservation > 0) && (($modif_option_reservation == 'y') || (
 						//cas où le jour est suppérieur ou égale à celui de la date sélectionné
 						break;
 					}
+
+					var opt = document.createElement('option');
+					opt.value = Math.trunc(date.getTime()/1000);
+					opt.innerHTML = date.toLocaleDateString('fr-FR', options);
+					select.appendChild(opt);
+					date.setDate(date.getDate()+1)
 				}
 			}
 			</script>
