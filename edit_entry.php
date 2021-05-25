@@ -410,6 +410,7 @@ function insertTypes(areas_,room_){
         }
     });
 }*/
+
 function check_1(){
     menu = document.getElementById('menu2');
     if (menu)
@@ -545,7 +546,27 @@ function validate_and_submit (){
         }
         <?php
     }
-     if (Settings::get("remplissage_description_complete") == '1')
+
+    ?>
+	day = document.getElementById('start_day').value;
+	month = document.getElementById('start_month').value-1;
+	year = document.getElementById('start_year').value;
+	start_hour = '<?PHP echo $morningstarts;?>';
+	end_hour = '<?PHP echo $eveningends;?>';
+	start_c = new Date (year, month, day, start_hour);
+	end_c = new Date (year, month, day, end_hour);
+	h = document.getElementsByName('start_')[0].value.split(":")[0];
+	demande = new Date (year, month, day, h);
+	
+	if (start_c.getTime() > demande.getTime() || demande.getTime() > end_c.getTime())
+    {
+        $("#error").append("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button><?php echo get_vocab('error_heure_debut_fin') ?></div>");
+        err = 1;        
+    }
+
+	<?php
+
+	if (Settings::get("remplissage_description_complete") == '1')
     {
         ?>
         if (document.forms["main"].description.value == "")
@@ -555,6 +576,7 @@ function validate_and_submit (){
         }
         <?php
     }
+
     foreach ($allareas_id as $idtmp)
     {
         $overload_fields = mrbsOverloadGetFieldslist($idtmp);
@@ -968,6 +990,7 @@ else // sélection de l'heure ou du créneau de fin
 	echo '</div>'.PHP_EOL;
 	echo '</td></tr>'.PHP_EOL;
 }
+
 if (($delais_option_reservation > 0) && (($modif_option_reservation == 'y') || ((($modif_option_reservation == 'n') && ($option_reservation != -1)))))
 {
 	$day   = date("d");
