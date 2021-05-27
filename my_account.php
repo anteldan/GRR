@@ -47,6 +47,7 @@ $reset_site = Settings::get('default_site');
 $reset_area = Settings::get('default_area');
 $reset_room = Settings::get('default_room');
 $msg = '';
+
 if ($valid == 'yes')
 {
 	if (IsAllowedToModifyMdp())
@@ -79,6 +80,7 @@ if ($valid == 'yes')
 				$msg = get_vocab('wrong_old_pwd');
 		}
 	}
+	
 	$sql = "SELECT email,source,nom,prenom
 	FROM ".TABLE_PREFIX."_utilisateurs
 	WHERE login='".getUserName()."'";
@@ -194,6 +196,7 @@ if (Settings::get("module_multisite") == "Oui")
 else
 	$use_site = 'n';
 // données utilisateur
+
 $sql = "SELECT nom,prenom,statut,email,default_site,default_area,default_room,default_style,default_list_type,default_language,source FROM ".TABLE_PREFIX."_utilisateurs WHERE login='".getUserName()."'";
 $res = grr_sql_query($sql);
 if ($res)
@@ -276,9 +279,11 @@ if ($res)
 	}
 </script>
 <?php
+
 affiche_pop_up($msg,'admin');
 echo ('
 	<div class="container">
+	<a href="modules/param_affichage_room.php"><h4>Cliquez ici pour masquer des sales</h4></a>
 	<form id="param_account" action="my_account.php" method="post">
 		<table>');
 	if (!(IsAllowedToModifyProfil()))
@@ -484,6 +489,7 @@ echo ('
 			</td>
 		</tr>
 	</table>';
+	
 /**
  * Liste des sites
  */

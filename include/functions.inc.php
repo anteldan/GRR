@@ -5192,16 +5192,17 @@ if (!function_exists('htmlspecialchars_decode'))
 // suggestions pour reformuler les pages plannings
 function pageHead2($title, $page = "with_session") 
 {
+	global $racine;
 	if ($page == "with_session")
 	{
 		if (isset($_SESSION['default_style']))
-			$sheetcss = 'themes/'.$_SESSION['default_style'].'/css';
+			$sheetcss = $racine.'themes/'.$_SESSION['default_style'].'/css';
 
 		else {
             if (Settings::get("default_css"))
-			$sheetcss = 'themes/'.Settings::get("default_css").'/css'; // thème global par défaut
+			$sheetcss = $racine.'themes/'.Settings::get("default_css").'/css'; // thème global par défaut
 		else
-			$sheetcss = 'themes/default/css'; // utilise le thème par défaut s'il n'a pas été défini
+			$sheetcss = $racine.'themes/default/css'; // utilise le thème par défaut s'il n'a pas été défini
         }
 		if (isset($_GET['default_language']))
 		{
@@ -5216,9 +5217,9 @@ function pageHead2($title, $page = "with_session")
 	else
 	{
 		if (Settings::get("default_css"))
-			$sheetcss = 'themes/'.Settings::get("default_css").'/css';
+			$sheetcss = $racine.'themes/'.Settings::get("default_css").'/css';
 		else
-			$sheetcss = 'themes/default/css';
+			$sheetcss = $racine.'themes/default/css';
 		if (isset($_GET['default_language']))
 		{
 			$_SESSION['default_language'] = clean_input($_GET['default_language']);
@@ -5245,7 +5246,7 @@ function pageHead2($title, $page = "with_session")
 	$a .= '<meta name="Robots" content="noindex" />'.PHP_EOL;
 	$a .= '<title>'.$title.'</title>'.PHP_EOL;
 
-	if (@file_exists('admin_accueil.php') || @file_exists('install_mysql.php')){ // Si on est dans l'administration ou en initialisation
+	if (@file_exists('admin_accueil.php') || @file_exists('install_mysql.php') || @file_exists('../admin/admin_accueil.php')){ // Si on est dans l'administration ou en initialisation
 
         $a .= '<link rel="shortcut icon" href="../favicon.ico" />'.PHP_EOL;
 		$a .= '<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.min.css" />'.PHP_EOL;
@@ -5530,6 +5531,10 @@ function start_page_w_header($day = '', $month = '', $year = '', $type_session =
         $adm = 1;
         $racine = "../";
         $racineAd = "./";
+    }else if(@file_exists('../admin/admin_access_area.php')){
+        $adm = 0;
+        $racine = "../";
+        $racineAd = "../admin/";
     }
     else{
         $adm = 0;
