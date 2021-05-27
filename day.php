@@ -163,7 +163,7 @@ $room_back = isset($_GET['room']) ? $_GET['room'] : 'all';
 
 // Détermination des ressources à afficher
 if($room_back != 'all'){
-	$sql = "SELECT room_name, capacity, id, description, statut_room, show_fic_room, delais_option_reservation, moderate FROM ".TABLE_PREFIX."_room WHERE area_id='".protect_data_sql($area)."' and id = '".protect_data_sql($room_back)."' AND id NOT IN (SELECT id_room FROM ".TABLE_PREFIX."_not_show_room WHERE login = '".getUserName()."') ORDER BY order_display, room_name";
+	$sql = "SELECT room_name, capacity, id, description, statut_room, show_fic_room, delais_option_reservation, moderate FROM ".TABLE_PREFIX."_room WHERE area_id='".protect_data_sql($area)."' and id = '".protect_data_sql($room_back)."' ORDER BY order_display, room_name";
 }
 else $sql = "SELECT room_name, capacity, id, description, statut_room, show_fic_room, delais_option_reservation, moderate FROM ".TABLE_PREFIX."_room WHERE area_id='".protect_data_sql($area)."' AND id NOT IN (SELECT id_room FROM ".TABLE_PREFIX."_not_show_room WHERE login = '".getUserName()."') ORDER BY order_display, room_name";
 $ressources = grr_sql_query($sql);
