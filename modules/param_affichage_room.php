@@ -85,9 +85,12 @@ if ($res)
                 echo ('></td></tr>');
             }
         }
+        grr_sql_free($res2);
         echo "</table>";
 	}
+    
 }
+grr_sql_free($res);
 
 echo '
 <div id="fixe">

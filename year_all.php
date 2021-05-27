@@ -234,12 +234,12 @@ if ($_GET['pview'] != 1)
 // construit la liste des ressources
 if ($site == -1) 
 {   // cas 1 : le multisite n'est pas activé $site devrait être à -1
-    $sql  = "SELECT DISTINCT r.id,r.room_name,a.id FROM ".TABLE_PREFIX."_room r JOIN ".TABLE_PREFIX."_area a ON r.area_id = a.id ORDER BY a.order_display,r.order_display";
+    $sql  = "SELECT DISTINCT r.id,r.room_name,a.id FROM ".TABLE_PREFIX."_room r JOIN ".TABLE_PREFIX."_area a ON r.area_id = a.id WHERE r.id NOT IN (SELECT id_room FROM ".TABLE_PREFIX."_not_show_room WHERE login = '".getUserName()."') ORDER BY a.order_display,r.order_display";
 }
 else
 {
     if ($site == 0){$site = get_default_site();} // si le site n'est pas défini, on le met à la valeur par défaut
-    $sql  = "SELECT DISTINCT r.id,r.room_name,a.id FROM ".TABLE_PREFIX."_room r JOIN (SELECT * FROM ".TABLE_PREFIX."_area d JOIN ".TABLE_PREFIX."_j_site_area j ON j.id_area = d.id WHERE j.id_site = ".$site.") a ON r.area_id = a.id ORDER BY a.order_display,r.order_display";
+    $sql  = "SELECT DISTINCT r.id,r.room_name,a.id FROM ".TABLE_PREFIX."_room r JOIN (SELECT * FROM ".TABLE_PREFIX."_area d JOIN ".TABLE_PREFIX."_j_site_area j ON j.id_area = d.id WHERE j.id_site = ".$site.") a ON r.area_id = a.id WHERE r.id NOT IN (SELECT id_room FROM ".TABLE_PREFIX."_not_show_room WHERE login = '".getUserName()."') ORDER BY a.order_display,r.order_display";
 }    
 $res = grr_sql_query($sql);
 if (!$res)

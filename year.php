@@ -399,7 +399,7 @@ while ($month_indice < $month_end)
     echo "<caption>";
     echo "<h4><a href='month_all2.php?month=".$month_num."&year=".$year_num."&area=".$area."'>".ucfirst(utf8_strftime("%B", $month_indice))."</a>".utf8_strftime(" %Y", $month_indice)."</h4>";
     echo "</caption>";
-	$sql = "select room_name, capacity, id, description from ".TABLE_PREFIX."_room where area_id=$area order by order_display,room_name";
+	$sql = "select room_name, capacity, id, description from ".TABLE_PREFIX."_room where area_id=$area AND id NOT IN (SELECT id_room FROM ".TABLE_PREFIX."_not_show_room WHERE login = '".getUserName()."') order by order_display,room_name";
 	$res = grr_sql_query($sql);
 	// Début affichage de la première ligne
 	echo "<thead><tr>";

@@ -143,7 +143,7 @@ if (Settings::get("verif_reservation_auto") == 0)
 }
 
 // Selection des ressources
-$sql = "SELECT room_name, capacity, id, description, statut_room, show_fic_room, delais_option_reservation, moderate FROM ".TABLE_PREFIX."_room WHERE area_id='".$area."' ORDER BY order_display, room_name";
+$sql = "SELECT room_name, capacity, id, description, statut_room, show_fic_room, delais_option_reservation, moderate FROM ".TABLE_PREFIX."_room WHERE area_id='".$area."' AND id NOT IN (SELECT id_room FROM ".TABLE_PREFIX."_not_show_room WHERE login = '".getUserName()."') ORDER BY order_display, room_name";
 $ressources = grr_sql_query($sql);
 
 if (!$ressources)

@@ -366,7 +366,7 @@ if ($_GET['pview'] == 1 && (isset($_GET['precedent']) && $_GET['precedent'] == 1
 </span>";
 }
 // le corps de la table 
-$sql = "SELECT room_name, capacity, id, description, statut_room FROM ".TABLE_PREFIX."_room WHERE area_id=$area ORDER BY order_display,room_name";
+$sql = "SELECT room_name, capacity, id, description, statut_room FROM ".TABLE_PREFIX."_room WHERE area_id=$area AND id NOT IN (SELECT id_room FROM ".TABLE_PREFIX."_not_show_room WHERE login = '".getUserName()."') ORDER BY order_display,room_name";
 $res = grr_sql_query($sql);
 echo "<thead><tr>";
 echo "<th class='cell_hours'>".get_vocab('rooms');
