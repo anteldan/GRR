@@ -448,10 +448,7 @@ if ($this_moderate_room == "1" && $_GET['pview'] != 1)
 {
 	echo '<br><span class="texte_ress_moderee">',get_vocab("reservations_moderees"),'</span>',PHP_EOL;
 }
-if ($this_area_show_comment == "y" && $_GET['pview'] != 1 && ($this_area_comment != "") && ($this_area_comment != -1))
-{
-	echo '<span style="text-align:center;">',$this_area_comment,'</span>',PHP_EOL;
-}
+
 
 echo '<h4 class="titre">'.ucfirst($this_area_name).' - '.$this_room_name.' '.$this_room_name_des;
 if ($this_room_max  && $_GET['pview'] != 1)
