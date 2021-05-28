@@ -115,16 +115,6 @@ $week_start = $am7;
 $week_end = mktime($eveningends, $eveningends_minutes, 0, $month_week, $day_week + 6, $year_week);
 $this_area_name = "";
 $this_room_name = "";
-$this_area_name = grr_sql_query1("SELECT area_name FROM ".TABLE_PREFIX."_area WHERE id=$area");
-$this_area_resolution = grr_sql_query1("SELECT resolution_area FROM ".TABLE_PREFIX."_area WHERE id=$area");
-$this_room_name = grr_sql_query1("SELECT room_name FROM ".TABLE_PREFIX."_room WHERE id=$room");
-$this_room_max = grr_sql_query1("SELECT capacity FROM ".TABLE_PREFIX."_room WHERE id=$room");
-$this_room_name_des = grr_sql_query1("SELECT description FROM ".TABLE_PREFIX."_room WHERE id=$room");
-$this_statut_room = grr_sql_query1("SELECT statut_room FROM ".TABLE_PREFIX."_room WHERE id=$room");
-$this_moderate_room = grr_sql_query1("SELECT moderate FROM ".TABLE_PREFIX."_room WHERE id=$room");
-$this_delais_option_reservation = grr_sql_query1("SELECT delais_option_reservation FROM ".TABLE_PREFIX."_room WHERE id=$room");
-$this_area_comment = grr_sql_query1("SELECT comment_room FROM ".TABLE_PREFIX."_room WHERE id=$room");
-$this_area_show_comment = grr_sql_query1("SELECT show_comment FROM ".TABLE_PREFIX."_room WHERE id=$room");
 
 $sql = "SELECT area_name, resolution_area, room_name, capacity, description, statut_room, moderate, delais_option_reservation, comment_room, show_comment FROM ".TABLE_PREFIX."_room r INNER JOIN ".TABLE_PREFIX."_area a ON r.area_id = a.id WHERE r.id=$room AND (r.id IN (SELECT id_room FROM ".TABLE_PREFIX."_show_room WHERE login = '".getUserName()."') OR a.access <> 'r') ORDER BY r.order_display, room_name";
 $ressources = grr_sql_query($sql);
