@@ -244,8 +244,7 @@ if (isset($_GET['precedent']))
 		echo '<span id="lienPrecedent">',PHP_EOL,'<button class="btn btn-default btn-xs" onclick="charger();javascript:history.back();">Précedent</button>',PHP_EOL,'</span>',PHP_EOL;
 	}
 }
-if ($this_area_show_comment == "y" && $_GET['pview'] != 1 && ($this_area_comment != "") && ($this_area_comment != -1))
-	echo '<div style="text-align:center;">',$this_area_comment,'</div>',PHP_EOL;
+
 echo "</div>";
 echo "</caption>";
 
