@@ -144,11 +144,6 @@ if (check_begin_end_bookings($day, $from_month, $from_year))
 	showNoBookings($day, $from_month, $from_year, $back);
 	exit();
 }
-if (((authGetUserLevel(getUserName(),-1) < 1) && (Settings::get("authentification_obli") == 1)) || authUserAccesArea(getUserName(), $area) == 0)
-{
-	showAccessDenied($back);
-	exit();
-}
 
 // On vérifie une fois par jour si le délai de confirmation des réservations est dépassé
 // Si oui, les réservations concernées sont supprimées et un mail automatique est envoyé.

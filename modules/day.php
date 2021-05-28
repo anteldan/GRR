@@ -298,8 +298,7 @@ for ($i = 0; ($row = grr_sql_row($ressources, $i)); $i++)
 {
 	$id_room[$i] = $row['2'];
 	$nbcol++;
-	if (verif_acces_ressource(getUserName(), $id_room[$i]))
-	{
+
 		$room_name[$i] = $row['0'];
 		$statut_room[$id_room[$i]] =  $row['4'];
 		$statut_moderate[$id_room[$i]] =  $row['7'];
@@ -346,7 +345,7 @@ for ($i = 0; ($row = grr_sql_row($ressources, $i)); $i++)
 		$rooms[] = $row['2'];
 		$delais_option_reservation[$row['2']] = $row['6'];
         echo '</th>'.PHP_EOL;
-	}
+	
 }
 if (count($rooms) == 0)
 {
