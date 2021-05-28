@@ -2544,8 +2544,6 @@ function make_area_item_html( $link, $current_site, $current_area, $year, $month
 		for ($i = 0; ($row = grr_sql_row($res, $i)); $i++)
 		{
 			$link2 = $link.'?year='.$year.'&amp;month='.$month.'&amp;day='.$day.'&amp;area='.$row[0];
-			if (authUserAccesArea($user, $row[0]) == 1)
-			{
 				/* Couleur du domaine selectionné*/
 				if ($current_area != null)
 				{
@@ -2556,7 +2554,6 @@ function make_area_item_html( $link, $current_site, $current_area, $year, $month
 				}
 				else
 					$out_html .= '<input class="btn btn-default btn-lg btn-block item" name="'.$row[0].'" value="'.htmlspecialchars($row[1]).'" onclick="location.href=\''.$link2.'\' ;charger();"/>'.PHP_EOL;
-			}
 		}
 	}
 	$out_html .= '</form>'.PHP_EOL.'</div>'.PHP_EOL.'</div>'.PHP_EOL;
