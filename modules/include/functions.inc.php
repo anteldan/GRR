@@ -967,7 +967,7 @@ function begin_page($title, $page = "with_session")
 			echo '<script type="text/javascript" src="../js/tooltip.js"></script>'.PHP_EOL;
 		if (!isset($_SESSION['selection']))
 			$a .= '<script type="text/javascript" src="../js/selection.js" ></script>'.PHP_EOL;
-		if (@file_exists('js/'.$clock_file))
+		if (@file_exists('../js/'.$clock_file))
 			$a .= '<script type="text/javascript" src="../js/'.$clock_file.'"></script>'.PHP_EOL;
 		if (substr(phpversion(), 0, 1) == 3)
 			$a .= get_vocab('not_php3');
@@ -1014,8 +1014,8 @@ function begin_page($title, $page = "with_session")
 			echo '<script type="text/javascript" src="./js/tooltip.js"></script>'.PHP_EOL;
 		if (!isset($_SESSION['selection']))
 			$a .= '<script type="text/javascript" src="js/selection.js" ></script>'.PHP_EOL;
-		if (@file_exists('js/'.$clock_file))
-			$a .= '<script type="text/javascript" src="js/'.$clock_file.'"></script>'.PHP_EOL;
+		if (@file_exists('../js/'.$clock_file))
+			$a .= '<script type="text/javascript" src="../js/'.$clock_file.'"></script>'.PHP_EOL;
 		if (substr(phpversion(), 0, 1) == 3)
 			$a .= get_vocab('not_php3');
 	}
@@ -1143,7 +1143,7 @@ function print_header($day = '', $month = '', $year = '', $type_session = 'with_
 			if ($type_session != "with_session")
 				echo '<script>selection()</script>'.PHP_EOL;
 			echo '<td class="configuration" >'.PHP_EOL;
-			if (@file_exists('js/'.$clock_file))
+			if (@file_exists('../js/'.$clock_file))
 			{
 				echo '<div class="clock">'.PHP_EOL;
 				echo '<div id="Date">'.PHP_EOL;
@@ -5289,7 +5289,7 @@ function pageHead2($title, $page = "with_session")
 			echo '<script type="text/javascript" src="../js/tooltip.js"></script>'.PHP_EOL;
 		if (!isset($_SESSION['selection']))
 			$a .= '<script type="text/javascript" src="../js/selection.js" ></script>'.PHP_EOL;
-		if (@file_exists('js/'.$clock_file))
+		if (@file_exists('../js/'.$clock_file))
 			$a .= '<script type="text/javascript" src="../js/'.$clock_file.'"></script>'.PHP_EOL;
         $a .= '<script type="text/javascript" src="../js/jscolor.js"></script>';
 		if (substr(phpversion(), 0, 1) == 3)
@@ -5338,8 +5338,8 @@ function pageHead2($title, $page = "with_session")
 			echo '<script type="text/javascript" src="./js/tooltip.js"></script>'.PHP_EOL;
 		if (!isset($_SESSION['selection']))
 			$a .= '<script type="text/javascript" src="js/selection.js" ></script>'.PHP_EOL;
-		if (@file_exists('js/'.$clock_file))
-			$a .= '<script type="text/javascript" src="js/'.$clock_file.'"></script>'.PHP_EOL;
+		if (@file_exists('../js/'.$clock_file))
+			$a .= '<script type="text/javascript" src="../js/'.$clock_file.'"></script>'.PHP_EOL;
 		if (substr(phpversion(), 0, 1) == 3)
 			$a .= get_vocab('not_php3');
 	}
@@ -5449,7 +5449,7 @@ function pageHeader2($day = '', $month = '', $year = '', $type_session = 'with_s
 			if ($type_session != "with_session")
 				echo '<script>selection()</script>'.PHP_EOL;
 			echo '<div class="configuration" >'.PHP_EOL;
-			if (@file_exists('js/'.$clock_file))
+			if (@file_exists('../js/'.$clock_file))
 			{
 				echo '<div class="clock">'.PHP_EOL;
 				echo '<div id="Date">'.PHP_EOL;

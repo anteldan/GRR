@@ -67,8 +67,8 @@ else
 	$type_session = "with_session";
 // autres initialisations
 $adm = 0;
-$racine = "./";
-$racineAd = "./admin/";
+$racine = "../";
+$racineAd = "../admin/";
 // pour le traitement des modules
 include "../include/hook.class.php";
 
