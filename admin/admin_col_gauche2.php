@@ -119,6 +119,12 @@ echo '<div class="col-sm-3 col-xs-12">';
 echo '<div class="panel-group" id="accordeon">';
 // affichage des sous-menus calculés
     $k = 1;
+    echo '<div class="panel panel-default">';
+    echo '      <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a  href="../modules/param_read_only.php">Accès lecture seul</a>
+                        </h4>
+                    </div>';
     foreach ($titres as $titre)
     {
         sousMenu($liste[$k],$titre);

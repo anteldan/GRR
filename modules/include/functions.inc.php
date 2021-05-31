@@ -5517,6 +5517,7 @@ function pageHeader2($day = '', $month = '', $year = '', $type_session = 'with_s
 			// echo '</tr>'.PHP_EOL;
 			// echo '</table>'.PHP_EOL;
 			echo '</div>'.PHP_EOL;
+			echo '<div>Pour pouvoir voir plus de salle demandé à votre gestionnaire</div>';
 			echo '<a id="open" class="open" href="#"><span class="glyphicon glyphicon-arrow-up"><span class="glyphicon glyphicon-arrow-down"></span></span></a>'.PHP_EOL;
             // echo '<a href="#" onClick="menuHaut()"><span class="glyphicon glyphicon-arrow-up"><span class="glyphicon glyphicon-arrow-down"></span></span></a>'.PHP_EOL;
 			// echo '</div>'.PHP_EOL;
