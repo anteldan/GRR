@@ -5409,7 +5409,8 @@ function pageHeader2($day = '', $month = '', $year = '', $type_session = 'with_s
 			if ((Settings::get("logo") != '') && (@file_exists($nom_picture)))
 				echo '<div class="logo" height="100">'.PHP_EOL.'<a href="'.$racine.page_accueil('yes').'day='.$day.'&amp;year='.$year.'&amp;month='.$month.'"><img src="'.$nom_picture.'" alt="logo"/></a>'.PHP_EOL.'</div>'.PHP_EOL;
 			//Accueil
-			echo '<div class="accueil ">',PHP_EOL,'<h2>',PHP_EOL,'<a href="'.$racine.page_accueil('yes'),'day=',$day,'&amp;year=',$year,'&amp;month=',$month,'">',Settings::get("company"),'</a>',PHP_EOL,'</h2>',PHP_EOL, Settings::get('message_accueil'),'</div>',PHP_EOL;
+			echo '<div class="accueil ">',PHP_EOL,'<h2>',PHP_EOL,'<a href="'.$racine.page_accueil('yes'),'day=',$day,'&amp;year=',$year,'&amp;month=',$month,'">',Settings::get("company"),'</a>',PHP_EOL,'</h2>',PHP_EOL, Settings::get('message_accueil'),'<p>Pour pouvoir voir plus de salle demandé au gestionnaire du domaines souhaité</p></div>',PHP_EOL;
+			
 			//Mail réservation
 			$sql = "SELECT value FROM ".TABLE_PREFIX."_setting WHERE name='mail_etat_destinataire'";
 			$res = grr_sql_query1($sql);
@@ -5517,7 +5518,6 @@ function pageHeader2($day = '', $month = '', $year = '', $type_session = 'with_s
 			// echo '</tr>'.PHP_EOL;
 			// echo '</table>'.PHP_EOL;
 			echo '</div>'.PHP_EOL;
-			echo '<div>Pour pouvoir voir plus de salle demandé à votre gestionnaire</div>';
 			echo '<a id="open" class="open" href="#"><span class="glyphicon glyphicon-arrow-up"><span class="glyphicon glyphicon-arrow-down"></span></span></a>'.PHP_EOL;
             // echo '<a href="#" onClick="menuHaut()"><span class="glyphicon glyphicon-arrow-up"><span class="glyphicon glyphicon-arrow-down"></span></span></a>'.PHP_EOL;
 			// echo '</div>'.PHP_EOL;
