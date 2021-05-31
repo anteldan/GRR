@@ -124,7 +124,8 @@ echo '<div class="panel-group" id="accordeon">';
                         <h4 class="panel-title">
                             <a  href="../modules/param_read_only.php">Accès lecture seul</a>
                         </h4>
-                    </div>';
+                </div>
+            </div>';
     foreach ($titres as $titre)
     {
         sousMenu($liste[$k],$titre);
