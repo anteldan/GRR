@@ -91,7 +91,9 @@ echo "</select>
 if(authGetUserLevel(getUserName(), -1) == 6){
     $sql = "SELECT id, area_name FROM " . TABLE_PREFIX . "_area WHERE access = 'r' ";
 }else{
-    $sql = "SELECT id, area_name FROM " . TABLE_PREFIX . "_area, " . TABLE_PREFIX . "_j_useradmin_area WHERE id_area = id AND access = 'r' AND login ='" . getUserName() . "'";
+    $sql = "SELECT id, area_name FROM " . TABLE_PREFIX . "_area, " . TABLE_PREFIX . "_j_useradmin_area WHERE id_area = id AND access = 'r' AND login ='" . getUserName() . "'
+   UNION 
+   SELECT DISTINCT a.id, area_name FROM " . TABLE_PREFIX . "_area a, " . TABLE_PREFIX . "_j_user_room j, ".TABLE_PREFIX."_room r WHERE area_id = a.id AND r.id = id_room AND access = 'r' AND login ='" . getUserName() . "'";
 }
 $res = grr_sql_query($sql);
 echo ('<div class="container">
