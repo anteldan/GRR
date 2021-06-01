@@ -17,9 +17,15 @@
 
 if (!grr_resumeSession())
 {
+	if (@file_exists('./admin_access_area.php')|| @file_exists('../admin/admin_access_area.php')){
+		$racine = "../";
+	}else{
+		$racine = "./";
+	}
+	
 	if ((Settings::get("authentification_obli") == 1) || ((Settings::get("authentification_obli") == 0) && (isset($_SESSION['login']))))
 	{
-		header("Location: ./logout.php?auto=1&url=$url");
+		header("Location: ".$racine."logout.php?auto=1&url=$url");
 		die();
 	}
 };
