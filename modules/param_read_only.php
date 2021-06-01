@@ -110,14 +110,27 @@ if ($res) {
         }
     }
     grr_sql_free($res3);
+    ?>
+
+    <script>
+    function selectAll(className){
+        res = document.getElementsByClassName(className);
+        for (let index = 0; index < res.length; index++) {
+            res[index].checked = true;
+        }
+    }
+    </script>
+    <?php
     for ($i = 0; ($row = grr_sql_row($res, $i)); $i++) {
-        echo "<h2>" . $row[1] . "</h2>
-        <table>";
+        echo '<table><td><h2 style="margin:5px">'. $row[1] . '</h2></td>
+        <td><button class="btn btn-primary"type="button" onclick = "selectAll(\'area_'.$row[0].'\')">Tout séléctionner</button></td>
+        </table>
+        <table>';
         $sql = "SELECT id, room_name FROM " . TABLE_PREFIX . "_room WHERE area_id = '" . $row[0] . "'";
         $res2 = grr_sql_query($sql);
         if ($res2) {
             for ($j = 0; ($row2 = grr_sql_row($res2, $j)); $j++) {
-                echo ('<tr><td>' . $row2[1] . '</td><td><input type="checkbox" name="' . $row2[0] . '_'.$row[0].'" ');
+                echo ('<tr><td>' . $row2[1] . '</td><td><input type="checkbox" class="area_'.$row[0].'" name="' . $row2[0] . '_'.$row[0].'" ');
                 if (in_array($row2[0], $not_show_room)) {
                     echo 'checked';
                 }
