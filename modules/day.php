@@ -226,7 +226,7 @@ if ((!isset($_GET['pview'])) || ($_GET['pview'] != 1))
     else {
         echo '<div class="left">',PHP_EOL,'<button class="btn btn-default btn-xs" onclick="charger();javascript: location.href=\'day.php?year='.$yy.'&amp;month='.$ym.'&amp;day='.$yd.'&amp;area='.$area.'&amp;room='.$room_back.'\';"> <span class="glyphicon glyphicon-backward"></span> ',get_vocab("daybefore"),'</button>','</div>',PHP_EOL;
     }    
-	include "../include/trailer.inc.php";
+	include "include/trailer.inc.php";
     if ($room_back == 'all'){
         echo '<div class="right">',PHP_EOL,'<button class="btn btn-default btn-xs" onclick="charger();javascript: location.href=\'day.php?year='.$ty.'&amp;month='.$tm.'&amp;day='.$td.'&amp;area='.$area.'\';">  '.get_vocab('dayafter').'  <span class="glyphicon glyphicon-forward"></span></button>','</div>',PHP_EOL;
     }

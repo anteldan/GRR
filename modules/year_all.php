@@ -606,7 +606,7 @@ echo "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12'>";
 show_colour_key($area);
 echo "</div>";
 echo "<div class='col-xs-12'>";
-include "../include/trailer.inc.php";
+include "include/trailer.inc.php";
 echo "</div>";
 echo "</div>";
 // Affichage d'un message pop-up

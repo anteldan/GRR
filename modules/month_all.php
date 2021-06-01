@@ -339,7 +339,7 @@ if ((!isset($_GET['pview'])) or ($_GET['pview'] != 1))
 		<div class=\"left\">
 			<button class=\"btn btn-default btn-xs\" onclick=\"charger();javascript: location.href='month_all.php?year=$yy&amp;month=$ym&amp;area=$area';\" \"><span class=\"glyphicon glyphicon-backward\"></span> ".get_vocab("monthbefore")." </button>
 		</div>";
-		include "../include/trailer.inc.php";
+		include "include/trailer.inc.php";
 		echo "<div class=\"right\">
 			<button class=\"btn btn-default btn-xs\" onclick=\"charger();javascript: location.href='month_all.php?year=$ty&amp;month=$tm&amp;area=$area';\" \">".get_vocab('monthafter')." <span class=\"glyphicon glyphicon-forward\"></span></button>
 		</div>

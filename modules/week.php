@@ -413,7 +413,7 @@ if ((!isset($_GET['pview'])) || ($_GET['pview'] != 1))
 	echo '<div class="left">',PHP_EOL,
 	'<button class="btn btn-default btn-xs" onclick="charger();javascript: location.href=\'week.php?year=',$yy,'&amp;month=',$ym,'&amp;day=',$yd,'&amp;room=',$room,
 	'\';"><span class="glyphicon glyphicon-backward"></span>',get_vocab("weekbefore"),'</button></div>';
-	include "../include/trailer.inc.php";
+	include "include/trailer.inc.php";
 	echo '<div class="right">',PHP_EOL,'<button class="btn btn-default btn-xs" onclick="charger();javascript: location.href=\'week.php?year=',$ty,
 	'&amp;month=',$tm,'&amp;day=',$td,'&amp;room=',$room,'\';">',get_vocab('weekafter'),'<span class="glyphicon glyphicon-forward"></span></button></div>';
 }
