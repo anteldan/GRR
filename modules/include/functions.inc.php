@@ -548,6 +548,8 @@ function how_many_connected()
 
 		if (@file_exists('./admin_access_area.php')){
 			$racineAd = "./";
+		}elseif (@file_exists('../admin/admin_access_area.php')){
+			$racineAd = "../admin/";
 		}else{
 			$racineAd = "./admin/";
 		}
