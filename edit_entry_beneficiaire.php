@@ -62,10 +62,10 @@ if ($flag_qui_peut_reserver_pour ) // on crée les sélecteurs à afficher
 	$res = grr_sql_query($sql);
 	if ($res)
 	{
+		var_dump($benef);
 		for ($i = 0; ($row = grr_sql_row($res, $i)); $i++)
 		{
-			echo '<option value="'.$row[0].'" ';
-			if ((!$benef && strtolower($user) == strtolower($row[0])) || ($benef && $benef == $row[0]))
+			if ((!$benef && strtolower($user) == strtolower($row[0])) || ($benef && strtolower($benef) == strtolower($row[0])))
 			{
 				echo ' selected="selected" ';
 			}
