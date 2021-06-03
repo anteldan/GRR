@@ -63,6 +63,7 @@ if ($flag_qui_peut_reserver_pour ) // on crée les sélecteurs à afficher
 	var_dump($res);
 	if ($res)
 	{
+		var_dump($benef);
 		for ($i = 0; ($row = grr_sql_row($res, $i)); $i++)
 		{
 			echo '<option value="'.$row[0].'" ';
