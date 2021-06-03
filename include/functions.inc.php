@@ -1955,7 +1955,7 @@ function valid_color($entry)
 //Round time down to the nearest resolution
 function round_t_down($t, $resolution, $am7)
 {
-	return (int)$t - (int)abs(((int)$t-(int)$am7) % $resolution);
+	return (int)$t;// - (int)abs(((int)$t-(int)$am7) % $resolution);
 }
 
 //Round time up to the nearest resolution
