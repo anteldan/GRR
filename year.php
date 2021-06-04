@@ -144,12 +144,6 @@ if (check_begin_end_bookings($day, $from_month, $from_year))
 	showNoBookings($day, $from_month, $from_year, $back);
 	exit();
 }
-if (((authGetUserLevel(getUserName(),-1) < 1) && (Settings::get("authentification_obli") == 1)) || authUserAccesArea(getUserName(), $area) == 0)
-{
-	showAccessDenied($back);
-	exit();
-}
-
 // On vérifie une fois par jour si le délai de confirmation des réservations est dépassé
 // Si oui, les réservations concernées sont supprimées et un mail automatique est envoyé.
 // On vérifie une fois par jour que les ressources ont été rendues en fin de réservation
@@ -202,12 +196,24 @@ $typeExclu = (isset($row[0]))? $row[0]:NULL; // lettre identifiant le type exclu
 //row[10]= type  -> lettre du type de l'entrée
 //row[11]= état de la modération
 //row[12]= bénéficiaire extérieur
-$sql = "SELECT start_time, end_time, ".TABLE_PREFIX."_entry.id, name, beneficiaire,
- room_name, statut_entry, ".TABLE_PREFIX."_entry.description, ".TABLE_PREFIX."_entry.option_reservation,
- ".TABLE_PREFIX."_room.delais_option_reservation, type, ".TABLE_PREFIX."_entry.moderate, beneficiaire_ext
-FROM ".TABLE_PREFIX."_entry inner join ".TABLE_PREFIX."_room ON ".TABLE_PREFIX."_entry.room_id=".TABLE_PREFIX."_room.id
-WHERE (start_time <= $month_end AND end_time > $month_start and area_id='".$area."' AND type <> '".$typeExclu."')
-ORDER by start_time, end_time, ".TABLE_PREFIX."_room.room_name";
+
+if (((authGetUserLevel(getUserName(), -1) < 1) && (Settings::get("authentification_obli") == 1)) || authUserAccesArea(getUserName(), $area) == 0)
+{
+	$sql = "SELECT start_time, end_time, ".TABLE_PREFIX."_entry.id, name, beneficiaire,
+	room_name, statut_entry, ".TABLE_PREFIX."_entry.description, ".TABLE_PREFIX."_entry.option_reservation,
+	".TABLE_PREFIX."_room.delais_option_reservation, type, ".TABLE_PREFIX."_entry.moderate, beneficiaire_ext
+   FROM ".TABLE_PREFIX."_entry inner join ".TABLE_PREFIX."_room ON ".TABLE_PREFIX."_entry.room_id=".TABLE_PREFIX."_room.id
+   WHERE (start_time <= $month_end AND end_time > $month_start and area_id='".$area."' AND type <> '".$typeExclu."') AND beneficiaire = '".getUserName()."'
+   ORDER by start_time, end_time, ".TABLE_PREFIX."_room.room_name";
+}else{
+	$sql = "SELECT start_time, end_time, ".TABLE_PREFIX."_entry.id, name, beneficiaire,
+	room_name, statut_entry, ".TABLE_PREFIX."_entry.description, ".TABLE_PREFIX."_entry.option_reservation,
+	".TABLE_PREFIX."_room.delais_option_reservation, type, ".TABLE_PREFIX."_entry.moderate, beneficiaire_ext
+   FROM ".TABLE_PREFIX."_entry inner join ".TABLE_PREFIX."_room ON ".TABLE_PREFIX."_entry.room_id=".TABLE_PREFIX."_room.id
+   WHERE (start_time <= $month_end AND end_time > $month_start and area_id='".$area."' AND type <> '".$typeExclu."')
+   ORDER by start_time, end_time, ".TABLE_PREFIX."_room.room_name";
+}
+
 //Build an array of information about each day in the month.
 //The information is stored as:
 // d[monthday]["id"][] = ID of each entry, for linking.

@@ -125,12 +125,6 @@ if (check_begin_end_bookings($day, $month, $year))
 	showNoBookings($day, $month, $year, $back);
 	exit();
 }
-//Renseigne les droits de l'utilisateur, si les droits sont insuffisants, l'utilisateur est averti.
-if ((($authGetUserLevel < 1) && (Settings::get("authentification_obli") == 1)) || authUserAccesArea(getUserName(), $area) == 0)
-{
-	showAccessDenied($back);
-	exit();
-}
 
 // On vérifie une fois par jour si le délai de confirmation des réservations est dépassé
 	// Si oui, les réservations concernées sont supprimées et un mail automatique est envoyé.
@@ -202,16 +196,34 @@ $ty = date("Y", $i);
 $tm = date("m", $i);
 $td = date("d", $i);
 $all_day = preg_replace("/ /", " ", get_vocab("all_day2"));
-$sql = "SELECT start_time, end_time, ".TABLE_PREFIX."_entry.id, name, beneficiaire, ".TABLE_PREFIX."_room.id,type, statut_entry, ".TABLE_PREFIX."_entry.description, ".TABLE_PREFIX."_entry.option_reservation, ".TABLE_PREFIX."_room.delais_option_reservation, ".TABLE_PREFIX."_entry.moderate, beneficiaire_ext, clef, ".TABLE_PREFIX."_entry.courrier, ".TABLE_PREFIX."_type_area.type_name
-FROM ".TABLE_PREFIX."_entry, ".TABLE_PREFIX."_room, ".TABLE_PREFIX."_area, ".TABLE_PREFIX."_type_area
-where
-".TABLE_PREFIX."_entry.room_id=".TABLE_PREFIX."_room.id and
-".TABLE_PREFIX."_area.id = ".TABLE_PREFIX."_room.area_id and
-".TABLE_PREFIX."_area.id = '".$area."' and
-".TABLE_PREFIX."_type_area.type_letter = ".TABLE_PREFIX."_entry.type AND
-start_time <= $date_end AND
-end_time > $date_start
-ORDER by start_time, end_time, ".TABLE_PREFIX."_entry.id";
+
+if ((($authGetUserLevel < 1) && (Settings::get("authentification_obli") == 1)) || authUserAccesArea(getUserName(), $area) == 0)
+{
+	//cas où l'on n'a pas le droits de voire toute les réservation
+	$sql = "SELECT start_time, end_time, ".TABLE_PREFIX."_entry.id, name, beneficiaire, ".TABLE_PREFIX."_room.id,type, statut_entry, ".TABLE_PREFIX."_entry.description, ".TABLE_PREFIX."_entry.option_reservation, ".TABLE_PREFIX."_room.delais_option_reservation, ".TABLE_PREFIX."_entry.moderate, beneficiaire_ext, clef, ".TABLE_PREFIX."_entry.courrier, ".TABLE_PREFIX."_type_area.type_name
+	FROM ".TABLE_PREFIX."_entry, ".TABLE_PREFIX."_room, ".TABLE_PREFIX."_area, ".TABLE_PREFIX."_type_area
+	where
+	".TABLE_PREFIX."_entry.room_id=".TABLE_PREFIX."_room.id and
+	".TABLE_PREFIX."_area.id = ".TABLE_PREFIX."_room.area_id and
+	".TABLE_PREFIX."_area.id = '".$area."' and
+	".TABLE_PREFIX."_type_area.type_letter = ".TABLE_PREFIX."_entry.type AND
+	start_time <= $date_end AND
+	end_time > $date_start
+	AND beneficiaire = '".getUserName()."'
+	ORDER by start_time, end_time, ".TABLE_PREFIX."_entry.id";
+}else{
+	$sql = "SELECT start_time, end_time, ".TABLE_PREFIX."_entry.id, name, beneficiaire, ".TABLE_PREFIX."_room.id,type, statut_entry, ".TABLE_PREFIX."_entry.description, ".TABLE_PREFIX."_entry.option_reservation, ".TABLE_PREFIX."_room.delais_option_reservation, ".TABLE_PREFIX."_entry.moderate, beneficiaire_ext, clef, ".TABLE_PREFIX."_entry.courrier, ".TABLE_PREFIX."_type_area.type_name
+	FROM ".TABLE_PREFIX."_entry, ".TABLE_PREFIX."_room, ".TABLE_PREFIX."_area, ".TABLE_PREFIX."_type_area
+	where
+	".TABLE_PREFIX."_entry.room_id=".TABLE_PREFIX."_room.id and
+	".TABLE_PREFIX."_area.id = ".TABLE_PREFIX."_room.area_id and
+	".TABLE_PREFIX."_area.id = '".$area."' and
+	".TABLE_PREFIX."_type_area.type_letter = ".TABLE_PREFIX."_entry.type AND
+	start_time <= $date_end AND
+	end_time > $date_start
+	ORDER by start_time, end_time, ".TABLE_PREFIX."_entry.id";
+}
+
 /* contenu de la réponse si succès :
     $row[0] : start_time
     $row[1] : end_time

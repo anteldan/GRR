@@ -107,11 +107,23 @@ $td = date("d",$i);
 $am7 = mktime($morningstarts, 0, 0, $month, $day, $year);
 $pm7 = mktime($eveningends, $eveningends_minutes, 0, $month, $day, $year);
 $this_area_name = grr_sql_query1("SELECT area_name FROM ".TABLE_PREFIX."_area WHERE id='".protect_data_sql($area)."'");
-$sql = "SELECT ".TABLE_PREFIX."_room.id, start_time, end_time, name, ".TABLE_PREFIX."_entry.id, type, beneficiaire, statut_entry, ".TABLE_PREFIX."_entry.description, ".TABLE_PREFIX."_entry.option_reservation, ".TABLE_PREFIX."_entry.moderate, beneficiaire_ext
-FROM ".TABLE_PREFIX."_entry, ".TABLE_PREFIX."_room
-WHERE ".TABLE_PREFIX."_entry.room_id = ".TABLE_PREFIX."_room.id
-AND area_id = '".protect_data_sql($area)."'
-AND start_time < ".($pm7+$resolution)." AND end_time > $am7 ORDER BY start_time";
+
+if (((authGetUserLevel(getUserName(), -1) < 1) && (Settings::get("authentification_obli") == 1)) || authUserAccesArea(getUserName(), $area) == 0)
+{
+	$sql = "SELECT ".TABLE_PREFIX."_room.id, start_time, end_time, name, ".TABLE_PREFIX."_entry.id, type, beneficiaire, statut_entry, ".TABLE_PREFIX."_entry.description, ".TABLE_PREFIX."_entry.option_reservation, ".TABLE_PREFIX."_entry.moderate, beneficiaire_ext
+	FROM ".TABLE_PREFIX."_entry, ".TABLE_PREFIX."_room
+	WHERE ".TABLE_PREFIX."_entry.room_id = ".TABLE_PREFIX."_room.id
+	AND area_id = '".protect_data_sql($area)."'
+	AND beneficiaire = '".getUserName()."'
+	AND start_time < ".($pm7+$resolution)." AND end_time > $am7 ORDER BY start_time";
+}else {
+	$sql = "SELECT ".TABLE_PREFIX."_room.id, start_time, end_time, name, ".TABLE_PREFIX."_entry.id, type, beneficiaire, statut_entry, ".TABLE_PREFIX."_entry.description, ".TABLE_PREFIX."_entry.option_reservation, ".TABLE_PREFIX."_entry.moderate, beneficiaire_ext
+	FROM ".TABLE_PREFIX."_entry, ".TABLE_PREFIX."_room
+	WHERE ".TABLE_PREFIX."_entry.room_id = ".TABLE_PREFIX."_room.id
+	AND area_id = '".protect_data_sql($area)."'
+	AND start_time < ".($pm7+$resolution)." AND end_time > $am7 ORDER BY start_time";
+}
+
 $res = grr_sql_query($sql);
 if (!$res)
 	echo grr_sql_error();

@@ -251,11 +251,23 @@ echo "</caption>";
 // calcul du contenu du planning
 // echo '<div class="contenu_planning">',PHP_EOL;
 $all_day = preg_replace("/ /", " ", get_vocab("all_day2"));
-$sql = "SELECT start_time, end_time, id, name, beneficiaire, description, type, moderate, beneficiaire_ext
-FROM ".TABLE_PREFIX."_entry
-WHERE room_id=$room
-AND start_time <= $month_end AND end_time > $month_start
-ORDER by 1";
+
+if (((authGetUserLevel(getUserName(), -1) < 1) && (Settings::get("authentification_obli") == 1)) || authUserAccesArea(getUserName(), $area) == 0)
+{
+    $sql = "SELECT start_time, end_time, id, name, beneficiaire, description, type, moderate, beneficiaire_ext
+    FROM ".TABLE_PREFIX."_entry
+    WHERE room_id=$room
+    AND beneficiaire = '".getUserName()."'
+    AND start_time <= $month_end AND end_time > $month_start
+    ORDER by 1";
+}else {
+    $sql = "SELECT start_time, end_time, id, name, beneficiaire, description, type, moderate, beneficiaire_ext
+    FROM ".TABLE_PREFIX."_entry
+    WHERE room_id=$room
+    AND start_time <= $month_end AND end_time > $month_start
+    ORDER by 1";
+}
+
 $res = grr_sql_query($sql);
 if (!$res)
 	echo grr_sql_error();

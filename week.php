@@ -185,10 +185,20 @@ include("menu_gauche2.php");
 include("chargement.php");
 
 // calcul des cellules du planning
-$sql = "SELECT start_time, end_time, type, name, id, beneficiaire, statut_entry, description, option_reservation, moderate, beneficiaire_ext
-FROM ".TABLE_PREFIX."_entry
-WHERE room_id=$room
-AND start_time < ".$week_end." AND end_time > $week_start ORDER BY start_time";
+if ((($authGetUserLevel < 1) && (Settings::get("authentification_obli") == 1)) || authUserAccesArea(getUserName(), $area) == 0)
+{
+	//cas où l'on n'a pas le droits de voire toute les réservation
+	$sql = "SELECT start_time, end_time, type, name, id, beneficiaire, statut_entry, description, option_reservation, moderate, beneficiaire_ext
+	FROM ".TABLE_PREFIX."_entry
+	WHERE room_id=$room
+	AND beneficiaire = '".getUserName()."'
+	AND start_time < ".$week_end." AND end_time > $week_start ORDER BY start_time";
+}else{
+	$sql = "SELECT start_time, end_time, type, name, id, beneficiaire, statut_entry, description, option_reservation, moderate, beneficiaire_ext
+	FROM ".TABLE_PREFIX."_entry
+	WHERE room_id=$room
+	AND start_time < ".$week_end." AND end_time > $week_start ORDER BY start_time";
+}
 if ($enable_periods == 'y')
 {
     $first_slot = 0;

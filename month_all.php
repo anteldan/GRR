@@ -125,12 +125,6 @@ if (check_begin_end_bookings($day, $month, $year))
 	showNoBookings($day, $month, $year, $back);
 	exit();
 }
-//Renseigne les droits de l'utilisateur, si les droits sont insuffisants, l'utilisateur est averti.
-if ((($authGetUserLevel < 1) && (Settings::get("authentification_obli") == 1)) || authUserAccesArea(getUserName(), $area) == 0)
-{
-	showAccessDenied($back);
-	exit();
-}
 
 // On vérifie une fois par jour si le délai de confirmation des réservations est dépassé
 	// Si oui, les réservations concernées sont supprimées et un mail automatique est envoyé.
@@ -191,11 +185,20 @@ $all_day = preg_replace("/ /", " ", get_vocab("all_day2"));
 //row[9] = beneficiaire extérieur
 //row[10] = id de la ressource
 //row[11] = Type_name
-$sql = "SELECT start_time, end_time, ".TABLE_PREFIX."_entry.id, name, beneficiaire, room_name, ".TABLE_PREFIX."_entry.description, type, ".TABLE_PREFIX."_entry.moderate, beneficiaire_ext, ".TABLE_PREFIX."_room.id, ".TABLE_PREFIX."_type_area.type_name 
-FROM (".TABLE_PREFIX."_entry inner join ".TABLE_PREFIX."_room on ".TABLE_PREFIX."_entry.room_id=".TABLE_PREFIX."_room.id ) 
-  inner join ".TABLE_PREFIX."_type_area on ".TABLE_PREFIX."_entry.type=".TABLE_PREFIX."_type_area.type_letter
-WHERE (start_time <= $month_end AND end_time > $month_start and area_id='".$area."') AND ".TABLE_PREFIX."_room.id NOT IN (SELECT id_room FROM ".TABLE_PREFIX."_not_show_room WHERE login = '".getUserName()."')
-ORDER by start_time, end_time, ".TABLE_PREFIX."_room.room_name";
+if (((authGetUserLevel(getUserName(), -1) < 1) && (Settings::get("authentification_obli") == 1)) || authUserAccesArea(getUserName(), $area) == 0)
+{
+	$sql = "SELECT start_time, end_time, ".TABLE_PREFIX."_entry.id, name, beneficiaire, room_name, ".TABLE_PREFIX."_entry.description, type, ".TABLE_PREFIX."_entry.moderate, beneficiaire_ext, ".TABLE_PREFIX."_room.id, ".TABLE_PREFIX."_type_area.type_name 
+	FROM (".TABLE_PREFIX."_entry inner join ".TABLE_PREFIX."_room on ".TABLE_PREFIX."_entry.room_id=".TABLE_PREFIX."_room.id ) 
+	inner join ".TABLE_PREFIX."_type_area on ".TABLE_PREFIX."_entry.type=".TABLE_PREFIX."_type_area.type_letter
+	WHERE (start_time <= $month_end AND end_time > $month_start and area_id='".$area."') AND ".TABLE_PREFIX."_room.id NOT IN (SELECT id_room FROM ".TABLE_PREFIX."_not_show_room WHERE login = '".getUserName()."')  AND beneficiaire = '".getUserName()."'
+	ORDER by start_time, end_time, ".TABLE_PREFIX."_room.room_name";
+}else{
+	$sql = "SELECT start_time, end_time, ".TABLE_PREFIX."_entry.id, name, beneficiaire, room_name, ".TABLE_PREFIX."_entry.description, type, ".TABLE_PREFIX."_entry.moderate, beneficiaire_ext, ".TABLE_PREFIX."_room.id, ".TABLE_PREFIX."_type_area.type_name 
+	FROM (".TABLE_PREFIX."_entry inner join ".TABLE_PREFIX."_room on ".TABLE_PREFIX."_entry.room_id=".TABLE_PREFIX."_room.id ) 
+	inner join ".TABLE_PREFIX."_type_area on ".TABLE_PREFIX."_entry.type=".TABLE_PREFIX."_type_area.type_letter
+	WHERE (start_time <= $month_end AND end_time > $month_start and area_id='".$area."') AND ".TABLE_PREFIX."_room.id NOT IN (SELECT id_room FROM ".TABLE_PREFIX."_not_show_room WHERE login = '".getUserName()."')
+	ORDER by start_time, end_time, ".TABLE_PREFIX."_room.room_name";
+}
 
 //Build an array of information about each day in the month.
 //The information is stored as:
