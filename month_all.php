@@ -570,3 +570,6 @@ echo "</body></html>";
 		$("#popup_name").resizable();
 	});
 </script>
+<?php
+include "modules/include/hide_reservation.php";
+?>
