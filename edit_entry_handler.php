@@ -283,8 +283,9 @@ if ($type_affichage_reser == 0)
 		if ($endtime <= $starttime)
 			$erreur = 'y';
 		$diff = $endtime - $starttime;
-		if (($tmp = $diff % $resolution) != 0 || $diff == 0)
-			$endtime += $resolution - $tmp;
+
+		if ( $diff < $resolution || $diff == 0)
+			$endtime += $resolution - $diff;
 	}
 }
 else
