@@ -5411,7 +5411,7 @@ function pageHeader2($day = '', $month = '', $year = '', $type_session = 'with_s
 			if ((Settings::get("logo") != '') && (@file_exists($nom_picture)))
 				echo '<div class="logo" height="100">'.PHP_EOL.'<a href="'.$racine.page_accueil('yes').'day='.$day.'&amp;year='.$year.'&amp;month='.$month.'"><img src="'.$nom_picture.'" alt="logo"/></a>'.PHP_EOL.'</div>'.PHP_EOL;
 			//Accueil
-			echo '<div class="accueil ">',PHP_EOL,'<h2>',PHP_EOL,'<a href="'.$racine.page_accueil('yes'),'day=',$day,'&amp;year=',$year,'&amp;month=',$month,'">',Settings::get("company"),'</a>',PHP_EOL,'</h2>',PHP_EOL, Settings::get('message_accueil'),'<p>Pour voir plus de salle, demandé les droits à l\'administrateur du domaines souhaité.</p></div>',PHP_EOL;
+			echo '<div class="accueil ">',PHP_EOL,'<h2>',PHP_EOL,'<a href="'.$racine.page_accueil('yes'),'day=',$day,'&amp;year=',$year,'&amp;month=',$month,'">',Settings::get("company"),'</a>',PHP_EOL,'</h2>',PHP_EOL, Settings::get('message_accueil'),'<p>Pour voir plus de salle, demandé les droits à l\'administrateur du domaine souhaité.</p></div>',PHP_EOL;
 			
 			//Mail réservation
 			$sql = "SELECT value FROM ".TABLE_PREFIX."_setting WHERE name='mail_etat_destinataire'";
