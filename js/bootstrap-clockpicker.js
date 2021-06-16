@@ -219,7 +219,7 @@
 		}
 
 		// Minutes view
-		for (i = 0; i < 60; i += this.minuteInterval) {
+		for (i = 0; i < 60; i += this.minuteInterval/2) {
 			tick = tickTpl.clone();
 			radian = i / 30 * Math.PI;
 			tick.css({
