@@ -225,7 +225,8 @@ else
 		$day_debut = date("d",$row[0]);
 		$year_debut = date("Y",$row[0]); 
         $debut_jour = mktime($morningstarts,0,0,$month_debut,$day_debut,$year_debut);
-		$t = max(round_t_down($row[0], $resolution, $debut_jour), $week_start); // instant de départ de la tranche de résa
+		$t = $row[0];
+		$t1 = max(round_t_down($row[0], $resolution, $debut_jour), $week_start); // instant de départ de la tranche de résa
         $month_current = date("m",$t);
 		$day_current = date("d",$t);
 		$year_current = date("Y",$t);
@@ -304,15 +305,15 @@ else
                         $d[$weekday][$slot]["moderation"] = $row[9];
                     }
                 }
-                $t += $this_area_resolution;
+                $t1 += $this_area_resolution;
                 $slot++;
                 if ($slot > $last_slot)
                 {
                     $weekday++;
                     $slot = $first_slot;
-                    $t = $weekday * 86400 + $am7; // pb à prévoir avec changement d'heure ? YN
+                    $t1 = $weekday * 86400 + $am7; // pb à prévoir avec changement d'heure ? YN
                 }
-            } while ($t < $end_t);
+            } while ($t1 < $end_t);
         }
         else  // cas des plages définies par créneaux
         {
