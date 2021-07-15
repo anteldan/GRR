@@ -133,3 +133,20 @@ INSERT INTO grr_setting VALUES ('cas_port', '');
 INSERT INTO grr_setting VALUES ('cas_racine', '');
 INSERT INTO grr_setting VALUES ('cas_serveur', '');
 INSERT INTO grr_setting VALUES ('remplissage_description_complete', '0');
+
+/****************** module : ****************/
+DROP TABLE IF EXISTS grr_not_show_room;
+CREATE TABLE `grr_not_show_room` (
+  `login` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `id_room` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`login`,`id_room`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS grr_show_room;
+CREATE TABLE `grr_show_room` (
+  `login` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `id_room` int(11) NOT NULL DEFAULT 0,
+  `id_area` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`login`,`id_room`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
