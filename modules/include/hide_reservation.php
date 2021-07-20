@@ -45,15 +45,15 @@ function addRemoveSalle(s, b){
     
 }
 
-// marche pas car dblclick = 2 événement click donc click sera toujour fait en premier
 bouton = document.getElementById("room_001").children;
 
 for (let i = 0; i < bouton.length; i++) {
+    //attend le click droit 
     bouton[i].addEventListener('contextmenu', function (e) {
-    e.preventDefault();
-    addRemoveSalle(bouton[i].value,bouton[i]);
-});
-    
+        
+        e.preventDefault(); //empêche l'afichage du menu déroulant
+        addRemoveSalle(bouton[i].value,bouton[i]);
+    });
 }
 
 </script>
