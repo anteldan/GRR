@@ -394,7 +394,6 @@ $vocab['eveningends_area'] = "Close of day hour (later than the start day hour)"
 $vocab['eveningends_minutes_area'] = "Number of minutes to be added at the close of day hour to have the real end of day.
  ";
 $vocab['every week'] = "every week";
-$vocab['exclude_type_in_views_all'] = "Here You can define a type that will not be displayed in views per domain (week_all, month_all, month_all2, year et year_all).";
 $vocab['execution automatique backup'] = "Automatic backup execution"; 
 $vocab['execution automatique backup explications'] = "An automatic backup can be triggered by executing the \"admin_save_mysql.php\" script, for example by scheduling its execution using a \"cron\" job.
 <br />
@@ -727,7 +726,7 @@ $vocab['rep_type_4'] = "Every year, the same date";
 $vocab['rep_type_5'] = "Every month, same day of the week";
 $vocab['rep_type_6'] = "Cycle Days";
 $vocab['required'] = "Fields labelled with * are compulsory.";
-$vocab['reservation_au_nom_de'] = "Reservation in the name of";
+$vocab['reservation au nom de'] = "Reservation in the name of";
 $vocab['Reservation confirmee'] = "Confirmed reservation ";
 $vocab['reservations_moderees'] = "Moderated reservations";
 $vocab['reservation_a_confirmer_au_plus_tard_le'] = " Reservation to be confirmed at the latest:";

@@ -287,7 +287,7 @@ if (isset($_POST['maj']) || isset($_GET['force_maj']) || $majscript)
 		if ($req == -1)
 			$result_inter .= traite_requete("INSERT INTO setting VALUES ('title_home_page', 'Gestion et Réservation de Ressources');");
 		if ($req == -1)
-			$result_inter .= traite_requete("INSERT INTO setting VALUES ('message_home_page', 'En raison du caractère personnel du contenu, ce site est soumis à des restrictions utilisateurs. Pour accéder aux outils de réservation, identifiez-vous :');");
+			$result_inter .= traite_requete("INSERT INTO setting VALUES ('message_home_page', 'En raison du caractère personnel du contenu, ce site est soumis à des restrictions utilisateurs.<br>Pour accéder aux outils de réservation, identifiez-vous  à l'aide de vos identifiants Collège de France de la Fédération Éducation-Recherche (RENATER) :');");
 		if ($result_inter == '')
 			$result .= "<span style=\"color:green;\">Ok !</span><br />";
 		else

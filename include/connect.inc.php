@@ -4,11 +4,11 @@
 # Si c'est le même que celui qui heberge les scripts, mettre "localhost"
 $dbHost="localhost";
 # ligne suivante : le nom de votre base sql
-$dbDb="grr_341g_dev";
+$dbDb="grr";
 # ligne suivante : le nom de l'utilisateur sql qui a les droits sur la base
-$dbUser="grr-dev";
+$dbUser="grr";
 # ligne suivante : le mot de passe de l'utilisateur sql ci-dessus
-$dbPass="74!];F)kM";
+$dbPass="grr";
 # ligne suivante : préfixe du nom des tables de données
 $table_prefix="grr";
 # ligne suivante : Port MySQL laissé par défaut

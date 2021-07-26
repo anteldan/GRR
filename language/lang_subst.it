@@ -1,0 +1,17 @@
+<?php
+# GRR: Translations provided by: Marc HENNETIER and Antony AUDOUARD
+# GRR : fichier de langue italienne
+# Last modification : 2019-01-06
+# Charset (jeu de caractères) utilisé dans l'en-tête des pages HTML
+$charset_html = "utf-8";
+# Codage de certains caractères particuliers : http://www.unicode.org/charts/PDF/U0080.pdf
+$vocab['mrbs'] = "GRS (Gestion et Réservation de Salles)";
+$vocab['echec_connexion_GRR'] = "Fallimento di collegamento a GRS.";
+$vocab['msg_logout1'] = "Avete chiuso la vostra sessione GRS.";
+$vocab['msg_logout2'] = "Vostra sessione GRS è scaduta, o siete stati staccati,<br />o bene non eravate collegati.";
+$vocab['subject_mail1'] = "GRS : opinione ";
+$vocab['title_mail'] = "Messaggio automatico emesso dal sito GRS : ";
+$vocab['title_mail_creation'] = "Una prenotazione su GRS è stata registrata :\n";
+$vocab['title_mail_delete'] = "Una prenotazione su GRS è stata cancellata :\n";
+$vocab['title_mail_modify'] = "Una prenotazione su GRS è stata modificata :\n";
+?>

@@ -980,6 +980,7 @@ Obsolete function signature and it doesn't allow to use LDAPS
 */
       $l_uri_port = $l_port != "" ? $l_adresse.":".$l_port : $l_adresse;
       $ds = @ldap_connect($l_uri_port);
+      //$ds = ldap_connect($l_adresse);
 
 	if ($ds)
 	{
