@@ -5512,7 +5512,7 @@ function pageHeader2($day = '', $month = '', $year = '', $type_session = 'with_s
 			// echo '</tr>'.PHP_EOL;
 			// echo '</table>'.PHP_EOL;
 			echo '</div>'.PHP_EOL;
-			echo '<div><a href="'.$racine.'modules/'.$grr_script_name.'">Visualisation seul des salles</a></div>';
+			echo '<div><a href="'.$racine.'modules/'.$grr_script_name.'">Consultation simple des salles</a></div>';
 
 			if (((authGetUserLevel(getUserName(),-1) < 1) && (Settings::get("authentification_obli") == 1)) || (isset($_GET['area']) && authUserAccesArea(getUserName(), $_GET['area']) == 0)){
 				echo "<div>Vous n'avez pas les droits pour voire les réservations des autres utilisateurs.</div>";

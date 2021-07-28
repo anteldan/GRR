@@ -56,11 +56,11 @@ $sql = "SELECT id, area_name FROM " . TABLE_PREFIX . "_area WHERE access <> 'r'
         SELECT id, area_name FROM " . TABLE_PREFIX . "_area, " . TABLE_PREFIX . "_j_user_area WHERE id_area = id AND access = 'r' AND login ='" . getUserName() . "'";
 
 $res = grr_sql_query($sql);
-echo ('<div class="container">
+echo ('<div class="container"><h4>Veuillez cocher les <strong>salles</strong> que vous souhaitez <strong><u>ne pas voir</u></strong> dans le planning.</h4>
 <form id="param_affichage" action="param_affichage_room.php" method="post">
 ');
 if ($res) {
-    //sélection des données enregisté
+    //sélection des données enregistées
     $sql = "SELECT id_room FROM " . TABLE_PREFIX . "_not_show_room WHERE login = '" . getUserName() . "'";
     $not_show_room = array();
     $res3 = grr_sql_query($sql);
@@ -94,7 +94,7 @@ echo '
 <div id="fixe">
     <input type="hidden" name="valid" value="yes" />
     <input class="btn btn-primary" type="submit" value="' . get_vocab('save') . '" />
-    <input class="btn btn-primary" type="reset" value="' . get_vocab('reset') . '" />
+    <input class="btn btn-primary" type="reset" value="' . get_vocab('cancel') . '" />
 </div>
 </form>
 </body>

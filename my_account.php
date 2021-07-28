@@ -283,7 +283,7 @@ if ($res)
 affiche_pop_up($msg,'admin');
 echo ('
 	<div class="container">
-	<a href="modules/param_affichage_room.php"><h4>Cliquez ici pour masquer des sales</h4></a>
+	<a href="modules/param_affichage_room.php"><h4>Cliquer pour afficher / cacher des salles dans le planning</h4></a>
 	<form id="param_account" action="my_account.php" method="post">
 		<table>');
 	if (!(IsAllowedToModifyProfil()))
